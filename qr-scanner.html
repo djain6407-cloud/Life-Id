@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LIFE_ID | QR Scanner</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f5f8fc;
+    color:#172033;
+}
+
+/* NAVBAR */
+.navbar{
+    height:72px;
+    background:#fff;
+    border-bottom:1px solid #e5eaf0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:800;
+    color:#123b67;
+}
+
+.brand-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:#123b67;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.nav-right{
+    font-size:14px;
+    color:#64748b;
+    font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+    width:90%;
+    max-width:1050px;
+    margin:35px auto 60px;
+}
+
+.heading{
+    margin-bottom:25px;
+}
+
+.heading h1{
+    font-size:30px;
+    color:#123b67;
+    margin-bottom:8px;
+}
+
+.heading p{
+    color:#64748b;
+    line-height:1.6;
+}
+
+/* NOTICE */
+.notice{
+    background:#fff8e7;
+    border:1px solid #f1d99e;
+    border-left:5px solid #d89516;
+    padding:16px 18px;
+    border-radius:10px;
+    margin-bottom:25px;
+}
+
+.notice strong{
+    color:#795600;
+}
+
+.notice p{
+    color:#6d6048;
+    font-size:14px;
+    line-height:1.5;
+    margin-top:5px;
+}
+
+/* MAIN GRID */
+.scanner-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+/* SCANNER */
+.scanner-card,
+.info-card{
+    background:#fff;
+    border:1px solid #e3e9f0;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 8px 25px rgba(30,55,90,.06);
+}
+
+.card-title{
+    color:#123b67;
+    margin-bottom:18px;
+}
+
+/* CAMERA AREA */
+.camera-box{
+    height:330px;
+    background:#101820;
+    border-radius:14px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#camera{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.scan-frame{
+    position:absolute;
+    width:210px;
+    height:210px;
+    border:3px solid #36c47c;
+    border-radius:15px;
+    display:none;
+    pointer-events:none;
+}
+
+.scan-line{
+    position:absolute;
+    width:190px;
+    height:2px;
+    background:#36c47c;
+    top:50%;
+    display:none;
+    animation:scan 2s infinite;
+}
+
+@keyframes scan{
+    0%{transform:translateY(-85px);}
+    50%{transform:translateY(85px);}
+    100%{transform:translateY(-85px);}
+}
+
+.camera-message{
+    color:#d7e0ea;
+    text-align:center;
+    padding:20px;
+    line-height:1.6;
+}
+
+.camera-message .camera-icon{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+/* BUTTONS */
+.button-row{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+.btn{
+    border:none;
+    border-radius:9px;
+    padding:13px 18px;
+    font-weight:700;
+    cursor:pointer;
+    text-decoration:none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.btn-primary{
+    background:#123b67;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#0d2d50;
+}
+
+.btn-secondary{
+    background:#edf2f7;
+    color:#334155;
+}
+
+.btn-secondary:hover{
+    background:#e2e8f0;
+}
+
+/* STATUS */
+.status{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    background:#f5f8fc;
+    color:#64748b;
+    font-size:13px;
+    text-align:center;
+}
+
+/* INFO */
+.info-item{
+    padding:15px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.info-item:last-child{
+    border-bottom:none;
+}
+
+.info-item h4{
+    color:#123b67;
+    margin-bottom:6px;
+}
+
+.info-item p{
+    color:#64748b;
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* MANUAL */
+.manual-box{
+    margin-top:25px;
+    background:#f8fafc;
+    border:1px solid #e5eaf0;
+    border-radius:12px;
+    padding:20px;
+}
+
+.manual-box h3{
+    color:#123b67;
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.manual-box p{
+    font-size:13px;
+    color:#64748b;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+
+.input{
+    width:100%;
+    padding:13px;
+    border:1px solid #cfd8e3;
+    border-radius:8px;
+    outline:none;
+    font-size:14px;
+    text-transform:uppercase;
+}
+
+.input:focus{
+    border-color:#2878c8;
+}
+
+.manual-btn{
+    width:100%;
+    margin-top:10px;
+}
+
+/* RESULT */
+.result{
+    display:none;
+    margin-top:20px;
+    padding:18px;
+    background:#eaf8f0;
+    border:1px solid #b8e3c9;
+    border-radius:10px;
+}
+
+.result h3{
+    color:#147a42;
+    margin-bottom:8px;
+}
+
+.result p{
+    font-size:14px;
+    color:#365b46;
+    margin:5px 0;
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    color:#8793a3;
+    font-size:12px;
+    margin-top:30px;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    .scanner-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-right{
+        display:none;
+    }
+
+    .container{
+        width:94%;
+    }
+
+    .heading h1{
+        font-size:25px;
+    }
+}
+
+@media(max-width:500px){
+
+    .navbar{
+        padding:0 5%;
+    }
+
+    .camera-box{
+        height:280px;
+    }
+
+    .button-row{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="brand">
+        <div class="brand-icon">L</div>
+        LIFE_ID
+    </div>
+
+    <div class="nav-right">
+        Hospital Portal • QR Fallback
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+    <!-- HEADING -->
+    <section class="heading">
+
+        <h1>QR Code Scanner</h1>
+
+        <p>
+            Use the patient's LIFE-ID QR code as an optional
+            fallback identification method.
+        </p>
+
+    </section>
+
+
+    <!-- NOTICE -->
+    <div class="notice">
+
+        <strong>Secondary Identification Method</strong>
+
+        <p>
+            QR scanning is optional. LIFE-ID + authorized
+            fingerprint verification remains the primary
+            emergency identification workflow.
+        </p>
+
+    </div>
+
+
+    <div class="scanner-grid">
+
+
+        <!-- SCANNER CARD -->
+        <section class="scanner-card">
+
+            <h2 class="card-title">
+                Scan LIFE-ID QR
+            </h2>
+
+
+            <div class="camera-box">
+
+                <video id="camera"
+                       autoplay
+                       playsinline>
+                </video>
+
+                <div class="camera-message"
+                     id="cameraMessage">
+
+                    <div class="camera-icon">▣</div>
+
+                    <div>
+                        Camera scanner is ready
+                    </div>
+
+                </div>
+
+                <div class="scan-frame"
+                     id="scanFrame">
+                </div>
+
+                <div class="scan-line"
+                     id="scanLine">
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button class="btn btn-primary"
+                        onclick="startScanner()">
+                    Start Scanner
+                </button>
+
+                <button class="btn btn-secondary"
+                        onclick="stopScanner()">
+                    Stop
+                </button>
+
+            </div>
+
+
+            <div class="status"
+                 id="scannerStatus">
+
+                Scanner not started
+
+            </div>
+
+
+            <!-- RESULT -->
+            <div class="result"
+                 id="scanResult">
+
+                <h3>✓ LIFE-ID Detected</h3>
+
+                <p>
+                    LIFE-ID:
+                    <strong id="detectedLifeId">
+                        -
+                    </strong>
+                </p>
+
+                <p>
+                    You can continue to authorized verification.
+                </p>
+
+                <button class="btn btn-primary"
+                        style="width:100%;margin-top:12px;"
+                        onclick="continueToAccess()">
+
+                    Continue to Verification
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMATION -->
+        <section class="info-card">
+
+            <h2 class="card-title">
+                How It Works
+            </h2>
+
+
+            <div class="info-item">
+
+                <h4>01. Scan</h4>
+
+                <p>
+                    Hospital staff scans the patient's
+                    LIFE-ID QR code.
+                </p>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <h4>02. Identify</h4>
+
+                <p>
+                    The QR code provides the patient's
+                    LIFE-ID reference.
+                </p>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <h4>03. Verify</h4>
+
+                <p>
+                    Authorized hospital staff completes
+                    the required verification step.
+                </p>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <h4>04. Access</h4>
+
+                <p>
+                    Emergency information is displayed
+                    only after authorized access.
+                </p>
+
+            </div>
+
+
+            <!-- MANUAL FALLBACK -->
+            <div class="manual-box">
+
+                <h3>Can't scan the QR?</h3>
+
+                <p>
+                    Enter the LIFE-ID manually as a fallback.
+                </p>
+
+                <input
+                    type="text"
+                    id="manualLifeId"
+                    class="input"
+                    placeholder="Example: LIFE-7K4P92"
+                >
+
+                <button
+                    class="btn btn-primary manual-btn"
+                    onclick="manualSearch()">
+
+                    Find LIFE-ID
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <div class="footer">
+
+        LIFE_ID • Secure Emergency Patient Identification System
+
+    </div>
+
+</main>
+
+
+<script>
+
+let stream = null;
+let detector = null;
+let scanning = false;
+
+
+/* --------------------------------
+   START CAMERA SCANNER
+-------------------------------- */
+
+async function startScanner(){
+
+    const status =
+        document.getElementById("scannerStatus");
+
+    const camera =
+        document.getElementById("camera");
+
+    const message =
+        document.getElementById("cameraMessage");
+
+    const frame =
+        document.getElementById("scanFrame");
+
+    const line =
+        document.getElementById("scanLine");
+
+
+    /* Check camera support */
+
+    if (!navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia){
+
+        status.textContent =
+            "Camera access is not supported in this browser.";
+
+        return;
+    }
+
+
+    /* Check BarcodeDetector */
+
+    if (!("BarcodeDetector" in window)){
+
+        status.textContent =
+            "Automatic QR detection is not supported here. Use manual LIFE-ID entry.";
+
+        return;
+    }
+
+
+    try{
+
+        detector = new BarcodeDetector({
+            formats:["qr_code"]
+        });
+
+
+        stream =
+            await navigator.mediaDevices.getUserMedia({
+                video:{
+                    facingMode:"environment"
+                },
+                audio:false
+            });
+
+
+        camera.srcObject = stream;
+
+        camera.style.display = "block";
+
+        message.style.display = "none";
+
+        frame.style.display = "block";
+
+        line.style.display = "block";
+
+        scanning = true;
+
+        status.textContent =
+            "Scanner active — point the camera at the LIFE-ID QR code.";
+
+
+        scanFrame();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        status.textContent =
+            "Camera permission was not granted or camera is unavailable.";
+
+    }
+
+}
+
+
+/* --------------------------------
+   SCAN FRAME
+-------------------------------- */
+
+async function scanFrame(){
+
+    if(!scanning || !detector){
+        return;
+    }
+
+
+    try{
+
+        const codes =
+            await detector.detect(
+                document.getElementById("camera")
+            );
+
+
+        if(codes.length > 0){
+
+            const value =
+                codes[0].rawValue;
+
+            handleQRCode(value);
+
+            return;
+        }
+
+    }catch(error){
+
+        console.log("QR detection error:",error);
+
+    }
+
+
+    requestAnimationFrame(scanFrame);
+}
+
+
+/* --------------------------------
+   HANDLE QR DATA
+-------------------------------- */
+
+function handleQRCode(value){
+
+    stopScanner();
+
+
+    let lifeId = value.trim().toUpperCase();
+
+
+    /*
+       Demo QR values can contain:
+       LIFE-7K4P92
+       https://life-id.demo/LIFE-7K4P92
+    */
+
+    const match =
+        lifeId.match(/LIFE-[A-Z0-9]+/);
+
+    if(match){
+
+        lifeId = match[0];
+
+    }
+
+
+    showDetectedLifeId(lifeId);
+
+}
+
+
+/* --------------------------------
+   SHOW RESULT
+-------------------------------- */
+
+function showDetectedLifeId(lifeId){
+
+    document.getElementById(
+        "detectedLifeId"
+    ).textContent = lifeId;
+
+
+    document.getElementById(
+        "scanResult"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "scannerStatus"
+    ).textContent =
+        "LIFE-ID detected successfully.";
+
+}
+
+
+/* --------------------------------
+   MANUAL SEARCH
+-------------------------------- */
+
+function manualSearch(){
+
+    const input =
+        document.getElementById("manualLifeId");
+
+    const lifeId =
+        input.value.trim().toUpperCase();
+
+
+    if(!lifeId){
+
+        alert("Please enter a LIFE-ID.");
+
+        return;
+    }
+
+
+    if(!/^LIFE-[A-Z0-9]+$/.test(lifeId)){
+
+        alert(
+            "Please enter a valid LIFE-ID format, for example LIFE-7K4P92."
+        );
+
+        return;
+    }
+
+
+    showDetectedLifeId(lifeId);
+
+}
+
+
+/* --------------------------------
+   CONTINUE
+-------------------------------- */
+
+function continueToAccess(){
+
+    const lifeId =
+        document.getElementById(
+            "detectedLifeId"
+        ).textContent;
+
+
+    localStorage.setItem(
+        "selectedPatientLifeId",
+        lifeId
+    );
+
+
+    window.location.href =
+        "emergency-access.html";
+
+}
+
+
+/* --------------------------------
+   STOP SCANNER
+-------------------------------- */
+
+function stopScanner(){
+
+    scanning = false;
+
+
+    if(stream){
+
+        stream.getTracks().forEach(
+            track => track.stop()
+        );
+
+        stream = null;
+    }
+
+
+    const camera =
+        document.getElementById("camera");
+
+    const frame =
+        document.getElementById("scanFrame");
+
+    const line =
+        document.getElementById("scanLine");
+
+
+    camera.style.display = "none";
+
+    frame.style.display = "none";
+
+    line.style.display = "none";
+
+
+    document.getElementById(
+        "cameraMessage"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "scannerStatus"
+    ).textContent =
+        "Scanner stopped.";
+
+}
+
+
+/* --------------------------------
+   CLEAN UP CAMERA
+-------------------------------- */
+
+window.addEventListener(
+    "beforeunload",
+    stopScanner
+);
+
+</script>
+
+</body>
+</html>

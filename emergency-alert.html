@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Alert | LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f8fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .alert-page {
+            max-width: 1000px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .alert-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .alert-icon {
+            width: 80px;
+            height: 80px;
+            margin: auto;
+            border-radius: 50%;
+            background: #ffe5e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+        }
+
+        .alert-header h1 {
+            color: #c62828;
+            margin: 18px 0 8px;
+        }
+
+        .alert-header p {
+            color: #667085;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .success-title {
+            text-align: center;
+            color: #17834b;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .alert-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .detail-box {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .detail-box span {
+            display: block;
+            color: #7b8494;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .detail-box strong {
+            color: #172b4d;
+            font-size: 16px;
+        }
+
+        .contacts-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.07);
+        }
+
+        .contacts-card h2 {
+            margin-top: 0;
+            color: #12355b;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 17px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .contact-name {
+            font-weight: bold;
+            color: #172b4d;
+        }
+
+        .contact-number {
+            color: #777;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .notification-status {
+            font-size: 13px;
+            font-weight: bold;
+            color: #17834b;
+            background: #e8f7ee;
+            padding: 7px 12px;
+            border-radius: 20px;
+        }
+
+        .pending {
+            color: #a66a00;
+            background: #fff5d9;
+        }
+
+        .info-note {
+            margin-top: 20px;
+            background: #eef6ff;
+            border-left: 4px solid #2878c8;
+            padding: 16px;
+            border-radius: 8px;
+            color: #4b5563;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 22px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: #12355b;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #edf2f7;
+            color: #12355b;
+        }
+
+        @media (max-width: 650px) {
+
+            .alert-page {
+                margin-top: 25px;
+            }
+
+            .alert-details {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-item {
+                align-items: flex-start;
+                gap: 12px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="index.html" class="brand">
+            <img
+                src="assets/logo.png"
+                alt="LIFE_ID Logo"
+                class="logo"
+            >
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="emergency-card.html">Emergency Card</a>
+        </nav>
+
+        <a
+            href="emergency-access.html"
+            class="nav-emergency"
+        >
+            Emergency Access
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= ALERT PAGE ================= -->
+
+<main class="alert-page">
+
+
+    <!-- Alert Header -->
+
+    <div class="alert-header">
+
+        <div class="alert-icon">
+            🚨
+        </div>
+
+        <h1>Emergency Alert</h1>
+
+        <p>
+            Emergency notification process has been initiated
+        </p>
+
+    </div>
+
+
+    <!-- ================= SUCCESS CARD ================= -->
+
+    <div class="success-card">
+
+        <div class="success-title">
+            ✓ Emergency Alert Successfully Initiated
+        </div>
+
+
+        <div class="alert-details">
+
+            <div class="detail-box">
+
+                <span>Patient</span>
+
+                <strong id="patientName">
+                    Demo Patient
+                </strong>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <span>LIFE-ID</span>
+
+                <strong id="lifeId">
+                    LIFE-7K4P92
+                </strong>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <span>Alert Type</span>
+
+                <strong>
+                    Medical Emergency
+                </strong>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <span>Alert Time</span>
+
+                <strong id="alertTime">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-note">
+
+            <strong>🔐 Secure Notification:</strong>
+
+            The emergency alert is associated with the patient's
+            verified LIFE-ID profile. In the real system, the
+            backend would securely deliver notifications to the
+            registered emergency contacts.
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CONTACTS ================= -->
+
+    <div class="contacts-card">
+
+        <h2>📞 Emergency Contacts Notified</h2>
+
+        <div id="contactsContainer">
+
+            <!-- Contacts will appear here -->
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BUTTONS ================= -->
+
+    <div class="buttons">
+
+        <button
+            class="btn btn-primary"
+            onclick="goToDashboard()"
+        >
+            ← Back to Hospital Dashboard
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            onclick="viewHistory()"
+        >
+            📋 View Access History
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        /* ================= PATIENT ================= */
+
+        const patientName =
+            localStorage.getItem("patientName")
+            || "Demo Patient";
+
+        const lifeId =
+            localStorage.getItem("lifeId")
+            || "LIFE-7K4P92";
+
+
+        document.getElementById("patientName")
+            .textContent = patientName;
+
+        document.getElementById("lifeId")
+            .textContent = lifeId;
+
+
+        /* ================= ALERT TIME ================= */
+
+        const alertTime =
+            new Date().toLocaleString();
+
+        document.getElementById("alertTime")
+            .textContent = alertTime;
+
+
+        localStorage.setItem(
+            "lastEmergencyAlert",
+            alertTime
+        );
+
+
+        /* ================= CONTACTS ================= */
+
+        let contacts = [];
+
+        try {
+
+            contacts =
+                JSON.parse(
+                    localStorage.getItem(
+                        "emergencyContacts"
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            contacts = [];
+
+        }
+
+
+        const container =
+            document.getElementById(
+                "contactsContainer"
+            );
+
+
+        container.innerHTML = "";
+
+
+        /* If contacts exist */
+
+        if (
+            Array.isArray(contacts) &&
+            contacts.length > 0
+        ) {
+
+            contacts.forEach(function(contact) {
+
+                const name =
+                    contact.name ||
+                    "Emergency Contact";
+
+                const number =
+                    contact.phone ||
+                    contact.number ||
+                    "Number unavailable";
+
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "contact-item";
+
+
+                item.innerHTML = `
+
+                    <div>
+                        <div class="contact-name">
+                            ${name}
+                        </div>
+
+                        <div class="contact-number">
+                            ${number}
+                        </div>
+                    </div>
+
+                    <div class="notification-status">
+                        ✓ Alert Queued
+                    </div>
+
+                `;
+
+
+                container.appendChild(item);
+
+            });
+
+        }
+
+
+        /* Demo contacts if none are saved */
+
+        else {
+
+            const demoContacts = [
+
+                {
+                    name: "Primary Emergency Contact",
+                    phone: "Registered Contact"
+                }
+
+            ];
+
+
+            demoContacts.forEach(function(contact) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "contact-item";
+
+
+                item.innerHTML = `
+
+                    <div>
+                        <div class="contact-name">
+                            ${contact.name}
+                        </div>
+
+                        <div class="contact-number">
+                            ${contact.phone}
+                        </div>
+                    </div>
+
+                    <div class="notification-status pending">
+                        Demo Mode
+                    </div>
+
+                `;
+
+
+                container.appendChild(item);
+
+            });
+
+        }
+
+    });
+
+
+    /* ================= NAVIGATION ================= */
+
+    function goToDashboard() {
+
+        window.location.href =
+            "hospital-dashboard.html";
+
+    }
+
+
+    function viewHistory() {
+
+        window.location.href =
+            "access-history.html";
+
+    }
+
+</script>
+
+</body>
+</html>

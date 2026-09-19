@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Access - LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* ================= PAGE ================= */
+
+        .access-page {
+            min-height: calc(100vh - 82px);
+            background: #f6fafb;
+            padding: 45px 20px 70px;
+        }
+
+        .access-container {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .access-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .access-heading h1 {
+            margin: 0 0 10px;
+            color: #073b4c;
+            font-size: 32px;
+        }
+
+        .access-heading p {
+            margin: 0 auto;
+            max-width: 650px;
+            color: #71838b;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+
+        /* ================= WARNING ================= */
+
+        .emergency-banner {
+            background: #fff1f1;
+            border: 1px solid #ffd0d0;
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 25px;
+        }
+
+        .emergency-banner-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: #ffe0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .emergency-banner strong {
+            color: #c83e42;
+            display: block;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .emergency-banner span {
+            color: #7d6c6c;
+            font-size: 12px;
+        }
+
+
+        /* ================= MAIN GRID ================= */
+
+        .access-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+
+        /* ================= CARD ================= */
+
+        .access-card {
+            background: white;
+            border: 1px solid #dfeaec;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 12px 35px rgba(20,70,80,0.06);
+        }
+
+        .card-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 15px;
+            background: #eaf8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        .access-card h2 {
+            margin: 0 0 8px;
+            color: #073b4c;
+            font-size: 21px;
+        }
+
+        .access-card > p {
+            color: #71838b;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+
+        /* ================= INPUT ================= */
+
+        .input-label {
+            display: block;
+            color: #173f4c;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .patient-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid #d6e4e8;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 14px;
+        }
+
+        .patient-input:focus {
+            border-color: #0c8997;
+        }
+
+
+        /* ================= SEARCH BUTTON ================= */
+
+        .search-btn {
+            width: 100%;
+            border: none;
+            background: #0c8997;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #087a87;
+        }
+
+
+        /* ================= BIOMETRIC ================= */
+
+        .biometric-box {
+            text-align: center;
+            border: 1px dashed #b9d6db;
+            border-radius: 15px;
+            padding: 25px 18px;
+            background: #fafdfe;
+        }
+
+        .fingerprint-icon {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: #e9f8fa;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+        }
+
+        .biometric-box h3 {
+            margin: 0 0 7px;
+            color: #073b4c;
+            font-size: 17px;
+        }
+
+        .biometric-box p {
+            color: #788990;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .verify-btn {
+            border: none;
+            background: #073b4c;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .verify-btn:hover {
+            background: #052f3d;
+        }
+
+
+        /* ================= STATUS ================= */
+
+        .verification-status {
+            display: none;
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 9px;
+            background: #eaf8ef;
+            color: #168849;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .verification-status.show {
+            display: block;
+        }
+
+
+        /* ================= PATIENT RESULT ================= */
+
+        .patient-result {
+            display: none;
+            margin-top: 22px;
+        }
+
+        .patient-result.show {
+            display: block;
+        }
+
+        .result-header {
+            background: #eef9fa;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .result-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #dff4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .result-header strong {
+            display: block;
+            color: #073b4c;
+            font-size: 14px;
+        }
+
+        .result-header span {
+            color: #087582;
+            font-size: 11px;
+        }
+
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .result-item {
+            background: #f7fafb;
+            border-radius: 9px;
+            padding: 12px;
+        }
+
+        .result-item small {
+            display: block;
+            color: #7c8d94;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .result-item strong {
+            color: #173f4c;
+            font-size: 13px;
+        }
+
+
+        /* ================= ACCESS BUTTON ================= */
+
+        .open-profile-btn {
+            width: 100%;
+            margin-top: 15px;
+            border: none;
+            background: #ff5558;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+        }
+
+        .open-profile-btn.show {
+            display: block;
+        }
+
+        .open-profile-btn:hover {
+            background: #eb4548;
+        }
+
+
+        /* ================= SECURITY NOTE ================= */
+
+        .security-note {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #f5f8fa;
+            border: 1px solid #e1eaed;
+            color: #6d7f87;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .security-note strong {
+            color: #087582;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 750px) {
+
+            .access-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .access-heading h1 {
+                font-size: 27px;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .access-page {
+                padding: 30px 15px 50px;
+            }
+
+            .access-card {
+                padding: 22px 18px;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emergency-banner {
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="brand">
+
+                <img
+                    src="assets/logo.png"
+                    alt="LIFE_ID Logo"
+                    class="logo"
+                >
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="index.html#how-it-works">
+                    How It Works
+                </a>
+
+                <a href="index.html#features">
+                    Features
+                </a>
+
+                <a href="index.html#about">
+                    About
+                </a>
+
+            </nav>
+
+
+            <a
+                href="emergency-access.html"
+                class="nav-emergency"
+            >
+                Emergency Access
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="access-page">
+
+        <div class="access-container">
+
+
+            <!-- HEADING -->
+
+            <div class="access-heading">
+
+                <h1>
+                    Emergency Patient Access
+                </h1>
+
+                <p>
+                    Securely identify a patient and access
+                    critical emergency information when the
+                    patient cannot communicate.
+                </p>
+
+            </div>
+
+
+            <!-- WARNING -->
+
+            <div class="emergency-banner">
+
+                <div class="emergency-banner-icon">
+                    🚨
+                </div>
+
+                <div>
+
+                    <strong>
+                        Emergency Access Mode
+                    </strong>
+
+                    <span>
+                        Use this system only for genuine medical emergencies
+                        and authorized hospital use.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= GRID ================= -->
+
+            <div class="access-grid">
+
+
+                <!-- ================= PATIENT IDENTIFICATION ================= -->
+
+                <section class="access-card">
+
+                    <div class="card-icon">
+                        🏥
+                    </div>
+
+                    <h2>
+                        Identify Patient
+                    </h2>
+
+                    <p>
+                        Enter the patient's LIFE_ID to locate
+                        their emergency medical profile.
+                    </p>
+
+
+                    <label
+                        class="input-label"
+                        for="lifeIdInput"
+                    >
+                        LIFE_ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lifeIdInput"
+                        class="patient-input"
+                        placeholder="Example: LIFE-7K4P92"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="search-btn"
+                        onclick="findPatient()"
+                    >
+                        Search LIFE_ID
+                    </button>
+
+
+                    <!-- RESULT -->
+
+                    <div
+                        class="patient-result"
+                        id="patientResult"
+                    >
+
+                        <div class="result-header">
+
+                            <div class="result-avatar">
+                                👤
+                            </div>
+
+                            <div>
+
+                                <strong id="patientName">
+                                    Emergency Patient
+                                </strong>
+
+                                <span id="patientLifeId">
+                                    LIFE-XXXXXX
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="result-grid">
+
+                            <div class="result-item">
+
+                                <small>
+                                    Blood Group
+                                </small>
+
+                                <strong id="patientBlood">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="result-item">
+
+                                <small>
+                                    Allergies
+                                </small>
+
+                                <strong id="patientAllergy">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="result-item">
+
+                                <small>
+                                    Conditions
+                                </small>
+
+                                <strong id="patientCondition">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="result-item">
+
+                                <small>
+                                    Emergency Contact
+                                </small>
+
+                                <strong id="patientContact">
+                                    —
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= BIOMETRIC ================= -->
+
+                <section class="access-card">
+
+                    <div class="card-icon">
+                        🔐
+                    </div>
+
+                    <h2>
+                        Secure Verification
+                    </h2>
+
+                    <p>
+                        Verify authorized access before showing
+                        sensitive emergency information.
+                    </p>
+
+
+                    <div class="biometric-box">
+
+                        <div class="fingerprint-icon">
+                            🖐️
+                        </div>
+
+                        <h3>
+                            Fingerprint Verification
+                        </h3>
+
+                        <p>
+                            Confirm authorized hospital staff access
+                            using biometric verification.
+                        </p>
+
+
+                        <button
+                            type="button"
+                            class="verify-btn"
+                            onclick="verifyFingerprint()"
+                        >
+                            Verify Fingerprint
+                        </button>
+
+
+                        <div
+                            class="verification-status"
+                            id="verificationStatus"
+                        >
+                            ✓ Verification successful
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="open-profile-btn"
+                        id="openProfileBtn"
+                        onclick="openPatientProfile()"
+                    >
+                        Open Emergency Profile →
+                    </button>
+
+
+                    <div class="security-note">
+
+                        <strong>
+                            🔒 Privacy & Security
+                        </strong>
+
+                        <br>
+
+                        This prototype demonstrates the access
+                        workflow. Real biometric verification should
+                        use the device's secure biometric system and
+                        a protected backend.
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        let patientFound = false;
+        let biometricVerified = false;
+
+
+        /* ================= SEARCH PATIENT ================= */
+
+        function findPatient() {
+
+            const input =
+                document.getElementById(
+                    "lifeIdInput"
+                ).value.trim().toUpperCase();
+
+
+            const savedLifeId =
+                localStorage.getItem("lifeId");
+
+
+            /*
+             * Demo fallback ID
+             * This allows the page to be tested
+             * even before the complete registration flow.
+             */
+
+            const demoId = "LIFE-7K4P92";
+
+
+            if (
+                !input ||
+                (input !== savedLifeId &&
+                 input !== demoId)
+            ) {
+
+                alert(
+                    "Patient LIFE_ID not found."
+                );
+
+                document.getElementById(
+                    "patientResult"
+                ).classList.remove("show");
+
+                return;
+
+            }
+
+
+            patientFound = true;
+
+
+            const profile =
+                JSON.parse(
+                    localStorage.getItem("medicalProfile")
+                ) || {};
+
+
+            const contacts =
+                JSON.parse(
+                    localStorage.getItem("emergencyContacts")
+                ) || [];
+
+
+            document.getElementById(
+                "patientName"
+            ).textContent =
+                localStorage.getItem("patientName")
+                || "Emergency Patient";
+
+
+            document.getElementById(
+                "patientLifeId"
+            ).textContent =
+                savedLifeId || demoId;
+
+
+            document.getElementById(
+                "patientBlood"
+            ).textContent =
+                profile.bloodGroup || "Not Provided";
+
+
+            document.getElementById(
+                "patientAllergy"
+            ).textContent =
+                profile.allergies || "None Provided";
+
+
+            document.getElementById(
+                "patientCondition"
+            ).textContent =
+                profile.conditions || "None Provided";
+
+
+            document.getElementById(
+                "patientContact"
+            ).textContent =
+                contacts.length > 0
+                ? contacts[0].number
+                : "Not Available";
+
+
+            document.getElementById(
+                "patientResult"
+            ).classList.add("show");
+
+            updateAccessButton();
+
+        }
+
+
+        /* ================= FINGERPRINT DEMO ================= */
+
+        function verifyFingerprint() {
+
+            if (!patientFound) {
+
+                alert(
+                    "First search and identify the patient."
+                );
+
+                return;
+
+            }
+
+
+            const status =
+                document.getElementById(
+                    "verificationStatus"
+                );
+
+
+            status.textContent =
+                "Verifying biometric identity...";
+
+            status.classList.add("show");
+
+
+            setTimeout(function() {
+
+                biometricVerified = true;
+
+                status.textContent =
+                    "✓ Fingerprint verification successful";
+
+                updateAccessButton();
+
+            }, 900);
+
+        }
+
+
+        /* ================= ACCESS BUTTON ================= */
+
+        function updateAccessButton() {
+
+            const button =
+                document.getElementById(
+                    "openProfileBtn"
+                );
+
+
+            if (
+                patientFound &&
+                biometricVerified
+            ) {
+
+                button.classList.add("show");
+
+            }
+
+        }
+
+
+        /* ================= OPEN PROFILE ================= */
+
+        function openPatientProfile() {
+
+            if (
+                !patientFound ||
+                !biometricVerified
+            ) {
+
+                alert(
+                    "Patient identification and verification are required."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Save access event for the prototype.
+             */
+
+            const accessHistory =
+                JSON.parse(
+                    localStorage.getItem(
+                        "accessHistory"
+                    )
+                ) || [];
+
+
+            accessHistory.push({
+
+                patientID:
+                    document.getElementById(
+                        "patientLifeId"
+                    ).textContent,
+
+                method:
+                    "LIFE_ID + Fingerprint Verification",
+
+                staffID:
+                    "HOSP-DEMO-001",
+
+                time:
+                    new Date().toLocaleString()
+
+            });
+
+
+            localStorage.setItem(
+                "accessHistory",
+                JSON.stringify(accessHistory)
+            );
+
+
+            window.location.href =
+                "hospital-dashboard.html";
+
+        }
+
+    </script>
+
+</body>
+</html>

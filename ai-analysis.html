@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LIFE_ID | AI Emergency Analysis</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f8fc;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5eaf0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #123b67;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #123b67;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* PAGE */
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 35px auto 60px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            color: #123b67;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* NOTICE */
+        .notice {
+            background: #eef6ff;
+            border: 1px solid #c9e0fa;
+            border-left: 5px solid #2878c8;
+            padding: 16px 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .notice strong {
+            color: #123b67;
+        }
+
+        .notice p {
+            margin-top: 5px;
+            color: #53657a;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* PATIENT CARD */
+        .patient-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #e3e9f0;
+            box-shadow: 0 8px 25px rgba(30, 55, 90, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .patient-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .patient-info h2 {
+            color: #123b67;
+            margin-bottom: 7px;
+        }
+
+        .life-id {
+            display: inline-block;
+            background: #edf4fb;
+            color: #185b91;
+            padding: 7px 12px;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .verified {
+            background: #e8f8ef;
+            color: #168348;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* GRID */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e3e9f0;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(30, 55, 90, 0.05);
+        }
+
+        .card h3 {
+            color: #123b67;
+            margin-bottom: 18px;
+        }
+
+        /* MEDICAL INFO */
+        .info-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            padding: 13px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #718096;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #26364a;
+            font-size: 14px;
+        }
+
+        /* RISK */
+        .risk-box {
+            text-align: center;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background: #fff7e8;
+            border: 1px solid #f1d39a;
+        }
+
+        .risk-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+
+        .risk-label {
+            font-size: 13px;
+            color: #7a6340;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .risk-level {
+            font-size: 34px;
+            font-weight: 800;
+            margin-top: 5px;
+            color: #c47a00;
+        }
+
+        .risk-description {
+            color: #66583e;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        /* FACTORS */
+        .factor {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 9px;
+            margin-bottom: 10px;
+        }
+
+        .factor-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e8eef5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .factor-text {
+            font-size: 14px;
+            color: #4b5d72;
+            line-height: 1.4;
+        }
+
+        /* STATUS */
+        .status-list {
+            margin-top: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 14px;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-ok {
+            color: #18844a;
+            font-weight: 700;
+        }
+
+        .status-attention {
+            color: #c47700;
+            font-weight: 700;
+        }
+
+        /* DISCLAIMER */
+        .disclaimer {
+            background: #fffbea;
+            border: 1px solid #f0dfa3;
+            border-radius: 12px;
+            padding: 17px;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #665a3c;
+            line-height: 1.6;
+        }
+
+        .disclaimer strong {
+            color: #8b6500;
+        }
+
+        /* BUTTONS */
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            border: none;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        .btn-secondary {
+            background: #edf2f7;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-danger {
+            background: #d92d20;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b42318;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #8793a3;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .info-row {
+                grid-template-columns: 110px 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="brand">
+            <div class="brand-icon">L</div>
+            LIFE_ID
+        </div>
+
+        <div class="nav-right">
+            Hospital Portal • AI Analysis
+        </div>
+    </nav>
+
+
+    <main class="container">
+
+        <!-- HEADING -->
+        <section class="page-heading">
+            <h1>AI Emergency Analysis</h1>
+            <p>
+                AI-assisted analysis of the patient's available emergency
+                medical information for hospital staff.
+            </p>
+        </section>
+
+
+        <!-- NOTICE -->
+        <div class="notice">
+            <strong>AI-Assisted Emergency Risk Prioritization</strong>
+
+            <p>
+                This prototype analyzes stored medical-profile information
+                and highlights factors that may require attention.
+                It is a decision-support feature and does not provide a
+                diagnosis or replace professional clinical judgment.
+            </p>
+        </div>
+
+
+        <!-- PATIENT -->
+        <section class="patient-card">
+
+            <div class="patient-top">
+
+                <div class="patient-info">
+                    <h2 id="patientName">Patient</h2>
+
+                    <span class="life-id" id="lifeId">
+                        LIFE-XXXXXX
+                    </span>
+                </div>
+
+                <div class="verified">
+                    ✓ Identity Verified
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="analysis-grid">
+
+            <!-- LEFT -->
+            <section class="card">
+
+                <h3>Medical Information</h3>
+
+                <div class="info-row">
+                    <div class="info-label">Blood Group</div>
+                    <div class="info-value" id="bloodGroup">
+                        Not available
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Allergies</div>
+                    <div class="info-value" id="allergies">
+                        None recorded
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Conditions</div>
+                    <div class="info-value" id="conditions">
+                        None recorded
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Medications</div>
+                    <div class="info-value" id="medications">
+                        None recorded
+                    </div>
+                </div>
+
+
+                <div class="status-list">
+
+                    <div class="status-item">
+                        <span>Medical profile</span>
+                        <span class="status-ok">Available</span>
+                    </div>
+
+                    <div class="status-item">
+                        <span>Patient identity</span>
+                        <span class="status-ok">Verified</span>
+                    </div>
+
+                    <div class="status-item">
+                        <span>Emergency contacts</span>
+                        <span class="status-ok" id="contactStatus">
+                            Available
+                        </span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT -->
+            <section class="card">
+
+                <h3>Analysis Result</h3>
+
+                <div class="risk-box">
+
+                    <div class="risk-icon">⚠️</div>
+
+                    <div class="risk-label">
+                        Emergency Priority
+                    </div>
+
+                    <div class="risk-level" id="riskLevel">
+                        ANALYZING
+                    </div>
+
+                    <div class="risk-description" id="riskDescription">
+                        Processing available patient information...
+                    </div>
+
+                </div>
+
+
+                <h3>Detected Factors</h3>
+
+                <div id="factorsContainer">
+                    <div class="factor">
+                        <div class="factor-icon">•</div>
+
+                        <div class="factor-text">
+                            Analyzing medical profile...
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- DISCLAIMER -->
+        <div class="disclaimer">
+
+            <strong>Prototype Disclaimer:</strong>
+
+            This demo uses rule-based analysis to demonstrate the
+            proposed AI-assisted workflow. It is not a clinically
+            validated AI model and should not be used to diagnose,
+            treat, or make independent medical decisions.
+
+        </div>
+
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+            <a href="hospital-dashboard.html"
+               class="btn btn-secondary">
+                ← Back to Dashboard
+            </a>
+
+            <a href="emergency-alert.html"
+               class="btn btn-danger">
+                🚨 Emergency Alert
+            </a>
+
+        </div>
+
+
+        <div class="footer">
+            LIFE_ID • Secure Emergency Patient Identification System
+        </div>
+
+    </main>
+
+
+<script>
+
+    /* ------------------------------------
+       GET DATA
+    ------------------------------------ */
+
+    const medicalProfile =
+        JSON.parse(localStorage.getItem("medicalProfile")) || {};
+
+    const emergencyContacts =
+        JSON.parse(localStorage.getItem("emergencyContacts")) || [];
+
+    const lifeId =
+        localStorage.getItem("selectedPatientLifeId") ||
+        localStorage.getItem("lifeId") ||
+        "LIFE-7K4P92";
+
+
+    /* ------------------------------------
+       DEMO FALLBACK
+    ------------------------------------ */
+
+    const patientName =
+        medicalProfile.name ||
+        "Demo Patient";
+
+    const bloodGroup =
+        medicalProfile.bloodGroup ||
+        "B+";
+
+    const allergies =
+        medicalProfile.allergies ||
+        "No known allergies";
+
+    const conditions =
+        medicalProfile.conditions ||
+        "No known conditions";
+
+    const medications =
+        medicalProfile.medications ||
+        "No current medications";
+
+
+    /* ------------------------------------
+       DISPLAY PATIENT DATA
+    ------------------------------------ */
+
+    document.getElementById("patientName").textContent =
+        patientName;
+
+    document.getElementById("lifeId").textContent =
+        lifeId;
+
+    document.getElementById("bloodGroup").textContent =
+        bloodGroup;
+
+    document.getElementById("allergies").textContent =
+        allergies;
+
+    document.getElementById("conditions").textContent =
+        conditions;
+
+    document.getElementById("medications").textContent =
+        medications;
+
+
+    /* ------------------------------------
+       CONTACT STATUS
+    ------------------------------------ */
+
+    const contactStatus =
+        document.getElementById("contactStatus");
+
+    if (emergencyContacts.length > 0) {
+
+        contactStatus.textContent =
+            emergencyContacts.length + " Contact(s)";
+
+    } else {
+
+        contactStatus.textContent =
+            "Not Available";
+
+        contactStatus.className =
+            "status-attention";
+    }
+
+
+    /* ------------------------------------
+       AI-ASSISTED DEMO ANALYSIS
+    ------------------------------------ */
+
+    function runAnalysis() {
+
+        const allergyText =
+            String(allergies).toLowerCase();
+
+        const conditionText =
+            String(conditions).toLowerCase();
+
+        const medicationText =
+            String(medications).toLowerCase();
+
+
+        let risk = "LOW";
+
+        let factors = [];
+
+
+        /* Severe allergy indicators */
+
+        if (
+            allergyText.includes("anaphylaxis") ||
+            allergyText.includes("severe")
+        ) {
+
+            risk = "HIGH";
+
+            factors.push(
+                "Severe allergy information is present in the medical profile."
+            );
+        }
+
+
+        /* Important medical-condition indicators */
+
+        if (
+            conditionText.includes("heart") ||
+            conditionText.includes("cardiac") ||
+            conditionText.includes("stroke")
+        ) {
+
+            risk = "HIGH";
+
+            factors.push(
+                "Cardiac or stroke-related medical history is recorded."
+            );
+        }
+
+
+        if (
+            conditionText.includes("asthma") ||
+            conditionText.includes("diabetes")
+        ) {
+
+            if (risk !== "HIGH") {
+                risk = "MEDIUM";
+            }
+
+            factors.push(
+                "A significant chronic medical condition is recorded."
+            );
+        }
+
+
+        /* Medication information */
+
+        if (
+            medicationText !== "" &&
+            medicationText !== "none" &&
+            medicationText !== "no current medications"
+        ) {
+
+            if (risk === "LOW") {
+                risk = "MEDIUM";
+            }
+
+            factors.push(
+                "Current medication information is available and should be reviewed."
+            );
+        }
+
+
+        /* Allergy information */
+
+        if (
+            allergyText !== "" &&
+            allergyText !== "none" &&
+            allergyText !== "no known allergies"
+        ) {
+
+            if (risk === "LOW") {
+                risk = "MEDIUM";
+            }
+
+            factors.push(
+                "Allergy information is recorded in the patient profile."
+            );
+        }
+
+
+        /* No factors */
+
+        if (factors.length === 0) {
+
+            factors.push(
+                "No major risk indicators were detected from the available profile data."
+            );
+
+        }
+
+
+        showResult(risk, factors);
+    }
+
+
+    /* ------------------------------------
+       SHOW RESULT
+    ------------------------------------ */
+
+    function showResult(risk, factors) {
+
+        const riskLevel =
+            document.getElementById("riskLevel");
+
+        const riskDescription =
+            document.getElementById("riskDescription");
+
+        const factorsContainer =
+            document.getElementById("factorsContainer");
+
+
+        riskLevel.textContent = risk;
+
+
+        if (risk === "HIGH") {
+
+            riskDescription.textContent =
+                "Multiple important medical factors are present. Hospital staff should review the complete patient profile.";
+
+        } else if (risk === "MEDIUM") {
+
+            riskDescription.textContent =
+                "Some medical information requires attention during emergency assessment.";
+
+        } else {
+
+            riskDescription.textContent =
+                "No major indicators were detected from the available profile information.";
+
+        }
+
+
+        factorsContainer.innerHTML = "";
+
+
+        factors.forEach(function(factor) {
+
+            const item =
+                document.createElement("div");
+
+            item.className = "factor";
+
+            item.innerHTML = `
+                <div class="factor-icon">✓</div>
+                <div class="factor-text">
+                    ${factor}
+                </div>
+            `;
+
+            factorsContainer.appendChild(item);
+
+        });
+
+    }
+
+
+    /* ------------------------------------
+       RUN AFTER PAGE LOAD
+    ------------------------------------ */
+
+    setTimeout(runAnalysis, 700);
+
+</script>
+
+</body>
+</html>

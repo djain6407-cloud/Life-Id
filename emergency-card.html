@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LIFE_ID | Emergency Card</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f8fc;
+            color: #243447;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .ec-navbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+
+        .ec-nav-container {
+            width: 100%;
+            max-width: 1180px;
+            margin: auto;
+            padding: 0 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ec-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #12395b;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .ec-logo img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .ec-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .ec-nav-links a {
+            text-decoration: none;
+            color: #475467;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 0;
+        }
+
+        .ec-nav-links a:hover {
+            color: #12395b;
+        }
+
+        .ec-nav-links a.active {
+            color: #12395b;
+            font-weight: 700;
+            border-bottom: 2px solid #12395b;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .ec-page {
+            width: 100%;
+            padding: 45px 20px 60px;
+        }
+
+        .ec-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ec-heading h1 {
+            font-size: 34px;
+            color: #12395b;
+            margin-bottom: 8px;
+        }
+
+        .ec-heading p {
+            color: #667085;
+            font-size: 15px;
+        }
+
+
+        /* ================= MEDICAL CARD ================= */
+
+        .ec-card {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+
+            border: 1px solid #dfe5eb;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+
+            /* IMPORTANT: no tilt */
+            transform: none;
+        }
+
+
+        /* ================= CARD HEADER ================= */
+
+        .ec-card-header {
+            background: #12395b;
+            color: white;
+
+            padding: 25px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .ec-card-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ec-card-brand img {
+            width: 48px;
+            height: 48px;
+
+            object-fit: contain;
+
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .ec-card-brand h2 {
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .ec-card-brand p {
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .ec-emergency-badge {
+            background: #dc2626;
+            color: white;
+
+            padding: 9px 15px;
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+
+        /* ================= CARD BODY ================= */
+
+        .ec-card-body {
+            padding: 30px;
+        }
+
+
+        /* ================= PATIENT SECTION ================= */
+
+        .ec-patient {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            gap: 20px;
+        }
+
+        .ec-patient-info h2 {
+            color: #12395b;
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .ec-life-id {
+            display: inline-block;
+
+            background: #eaf3ff;
+            color: #1261a0;
+
+            padding: 7px 13px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .ec-verified {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            background: #ecfdf3;
+            color: #15803d;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        /* ================= BLOOD GROUP ================= */
+
+        .ec-blood {
+            min-width: 125px;
+
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+
+            border-radius: 14px;
+
+            padding: 16px;
+
+            text-align: center;
+        }
+
+        .ec-blood span {
+            display: block;
+
+            color: #be123c;
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+        .ec-blood strong {
+            color: #be123c;
+            font-size: 27px;
+        }
+
+
+        /* ================= INFORMATION ================= */
+
+        .ec-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .ec-info {
+            background: #fafcff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+
+            padding: 18px;
+
+            min-height: 110px;
+        }
+
+        .ec-info h3 {
+            font-size: 14px;
+            color: #12395b;
+
+            margin-bottom: 10px;
+        }
+
+        .ec-info p {
+            font-size: 14px;
+            color: #475467;
+            line-height: 1.6;
+        }
+
+        .ec-allergy {
+            border-left: 4px solid #dc2626;
+        }
+
+        .ec-condition {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .ec-medicine {
+            border-left: 4px solid #2563eb;
+        }
+
+        .ec-primary-contact {
+            border-left: 4px solid #16a34a;
+        }
+
+
+        /* ================= CONTACTS ================= */
+
+        .ec-contacts {
+            margin-top: 20px;
+
+            padding: 20px;
+
+            background: #f0fdf4;
+
+            border: 1px solid #bbf7d0;
+
+            border-radius: 13px;
+        }
+
+        .ec-contacts h3 {
+            color: #166534;
+            font-size: 16px;
+            margin-bottom: 14px;
+        }
+
+        .ec-contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ec-contact {
+            background: white;
+
+            padding: 12px 15px;
+
+            border-radius: 9px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .ec-contact-name {
+            color: #344054;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .ec-contact-phone {
+            color: #166534;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .ec-card-footer {
+            background: #f8fafc;
+
+            border-top: 1px solid #e5e7eb;
+
+            padding: 18px 25px;
+
+            text-align: center;
+
+            color: #667085;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= BUTTONS ================= */
+
+        .ec-actions {
+            max-width: 850px;
+            margin: 25px auto 0;
+
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .ec-btn {
+            border: none;
+            border-radius: 9px;
+
+            padding: 12px 19px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .ec-btn-back {
+            background: white;
+            color: #12395b;
+            border: 1px solid #d0d5dd;
+        }
+
+        .ec-btn-emergency {
+            background: #dc2626;
+            color: white;
+        }
+
+        .ec-btn-print {
+            background: #12395b;
+            color: white;
+        }
+
+        .ec-btn:hover {
+            opacity: 0.9;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .ec-navbar {
+                height: auto;
+                padding: 15px 0;
+            }
+
+            .ec-nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .ec-nav-links {
+                gap: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .ec-page {
+                padding: 30px 15px 50px;
+            }
+
+            .ec-heading h1 {
+                font-size: 27px;
+            }
+
+            .ec-card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ec-patient {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ec-blood {
+                width: 100%;
+            }
+
+            .ec-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ec-actions {
+                flex-direction: column;
+                padding: 0 15px;
+            }
+
+            .ec-btn {
+                width: 100%;
+            }
+
+            .ec-contact {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+
+        /* ================= PRINT ================= */
+
+        @media print {
+
+            .ec-navbar,
+            .ec-actions,
+            .ec-heading {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .ec-page {
+                padding: 0;
+            }
+
+            .ec-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="ec-navbar">
+
+        <div class="ec-nav-container">
+
+            <a href="dashboard.html" class="ec-logo">
+
+                <img src="assets/logo.png" alt="LIFE_ID">
+
+                <span>LIFE_ID</span>
+
+            </a>
+
+
+            <div class="ec-nav-links">
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+                <a href="emergency-card.html" class="active">
+                    Emergency Card
+                </a>
+
+                <a href="emergency-contacts.html">
+                    Contacts
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= PAGE ================= -->
+
+    <main class="ec-page">
+
+        <div class="ec-heading">
+
+            <h1>Emergency Medical Card</h1>
+
+            <p>
+                Quick access to critical medical information during emergencies
+            </p>
+
+        </div>
+
+
+        <!-- ================= CARD ================= -->
+
+        <section class="ec-card">
+
+
+            <!-- CARD HEADER -->
+
+            <div class="ec-card-header">
+
+                <div class="ec-card-brand">
+
+                    <img
+                        src="assets/logo.png"
+                        alt="LIFE_ID Logo"
+                    >
+
+                    <div>
+
+                        <h2>LIFE_ID</h2>
+
+                        <p>
+                            Emergency Medical Profile
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ec-emergency-badge">
+                    🚨 EMERGENCY READY
+                </div>
+
+            </div>
+
+
+            <!-- CARD BODY -->
+
+            <div class="ec-card-body">
+
+
+                <!-- PATIENT -->
+
+                <div class="ec-patient">
+
+                    <div class="ec-patient-info">
+
+                        <h2 id="patientName">
+                            Patient Name
+                        </h2>
+
+                        <span class="ec-life-id" id="lifeId">
+                            LIFE-XXXXXX
+                        </span>
+
+                        <br>
+
+                        <span class="ec-verified">
+                            ✓ Identity Verified
+                        </span>
+
+                    </div>
+
+
+                    <div class="ec-blood">
+
+                        <span>
+                            Blood Group
+                        </span>
+
+                        <strong id="bloodGroup">
+                            --
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MEDICAL INFORMATION -->
+
+                <div class="ec-info-grid">
+
+
+                    <div class="ec-info ec-allergy">
+
+                        <h3>
+                            ⚠️ Allergies
+                        </h3>
+
+                        <p id="allergies">
+                            No allergy information available
+                        </p>
+
+                    </div>
+
+
+                    <div class="ec-info ec-condition">
+
+                        <h3>
+                            🩺 Medical Conditions
+                        </h3>
+
+                        <p id="conditions">
+                            No medical conditions available
+                        </p>
+
+                    </div>
+
+
+                    <div class="ec-info ec-medicine">
+
+                        <h3>
+                            💊 Current Medications
+                        </h3>
+
+                        <p id="medications">
+                            No medication information available
+                        </p>
+
+                    </div>
+
+
+                    <div class="ec-info ec-primary-contact">
+
+                        <h3>
+                            📞 Primary Emergency Contact
+                        </h3>
+
+                        <p id="primaryContact">
+                            No emergency contact available
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONTACTS -->
+
+                <div class="ec-contacts">
+
+                    <h3>
+                        📞 Emergency Contacts
+                    </h3>
+
+                    <div
+                        class="ec-contact-list"
+                        id="contactList"
+                    >
+
+                        <div class="ec-contact">
+
+                            <span class="ec-contact-name">
+                                No contacts added
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CARD FOOTER -->
+
+            <div class="ec-card-footer">
+
+                <strong>
+                    LIFE_ID Emergency System
+                </strong>
+
+                <br>
+
+                Critical medical information for authorized
+                emergency personnel.
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ACTION BUTTONS ================= -->
+
+        <div class="ec-actions">
+
+            <button
+                class="ec-btn ec-btn-back"
+                onclick="window.location.href='dashboard.html'"
+            >
+                ← Back to Dashboard
+            </button>
+
+
+            <button
+                class="ec-btn ec-btn-emergency"
+                onclick="window.location.href='emergency-access.html'"
+            >
+                🚨 Emergency Access
+            </button>
+
+
+            <button
+                class="ec-btn ec-btn-print"
+                onclick="window.print()"
+            >
+                🖨 Print Card
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            /* ================= LIFE ID ================= */
+
+            const savedLifeId =
+                localStorage.getItem("lifeId");
+
+            if (savedLifeId) {
+
+                document.getElementById("lifeId")
+                    .textContent = savedLifeId;
+
+            }
+
+
+            /* ================= MEDICAL PROFILE ================= */
+
+            let medicalProfile = null;
+
+            try {
+
+                medicalProfile =
+                    JSON.parse(
+                        localStorage.getItem("medicalProfile")
+                    );
+
+            } catch (error) {
+
+                medicalProfile = null;
+
+            }
+
+
+            if (medicalProfile) {
+
+                document.getElementById("patientName")
+                    .textContent =
+                    medicalProfile.name || "Patient Name";
+
+
+                document.getElementById("bloodGroup")
+                    .textContent =
+                    medicalProfile.bloodGroup || "--";
+
+
+                document.getElementById("allergies")
+                    .textContent =
+                    medicalProfile.allergies ||
+                    "No allergy information available";
+
+
+                document.getElementById("conditions")
+                    .textContent =
+                    medicalProfile.conditions ||
+                    "No medical conditions available";
+
+
+                document.getElementById("medications")
+                    .textContent =
+                    medicalProfile.medications ||
+                    "No medication information available";
+
+            }
+
+
+            /* ================= EMERGENCY CONTACTS ================= */
+
+            let contacts = [];
+
+            try {
+
+                contacts =
+                    JSON.parse(
+                        localStorage.getItem("emergencyContacts")
+                    ) || [];
+
+            } catch (error) {
+
+                contacts = [];
+
+            }
+
+
+            const contactList =
+                document.getElementById("contactList");
+
+            const primaryContact =
+                document.getElementById("primaryContact");
+
+
+            if (contacts.length > 0) {
+
+                contactList.innerHTML = "";
+
+
+                contacts.forEach(function (contact, index) {
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className = "ec-contact";
+
+
+                    const name =
+                        contact.name ||
+                        "Emergency Contact";
+
+
+                    const relationship =
+                        contact.relationship
+                            ? " (" + contact.relationship + ")"
+                            : "";
+
+
+                    const phone =
+                        contact.phone ||
+                        "No number";
+
+
+                    item.innerHTML = `
+
+                        <span class="ec-contact-name">
+                            ${name}${relationship}
+                        </span>
+
+                        <span class="ec-contact-phone">
+                            ${phone}
+                        </span>
+
+                    `;
+
+
+                    contactList.appendChild(item);
+
+
+                    /* PRIMARY CONTACT */
+
+                    if (index === 0) {
+
+                        primaryContact.textContent =
+                            name + " - " + phone;
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

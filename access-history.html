@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Access History | LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f8fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .history-page {
+            max-width: 1150px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            color: #12355b;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #667085;
+        }
+
+        /* Summary */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .summary-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card span {
+            display: block;
+            color: #7b8494;
+            font-size: 13px;
+        }
+
+        .summary-card strong {
+            display: block;
+            margin-top: 7px;
+            color: #12355b;
+            font-size: 24px;
+        }
+
+        /* History Card */
+
+        .history-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .history-card h2 {
+            margin-top: 0;
+            color: #12355b;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: #475569;
+            text-align: left;
+            padding: 15px;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #edf0f2;
+            color: #344054;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .life-id-badge {
+            background: #edf5ff;
+            color: #1769aa;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .verified {
+            display: inline-block;
+            background: #e8f7ee;
+            color: #17834b;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .method {
+            color: #555;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #777;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        /* Security Note */
+
+        .security-note {
+            margin-top: 25px;
+            background: #eef6ff;
+            border-left: 4px solid #2878c8;
+            padding: 18px;
+            border-radius: 8px;
+            color: #475569;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            background: #12355b;
+            color: white;
+        }
+
+        .clear-btn {
+            background: #fff0f0;
+            color: #c62828;
+        }
+
+        @media (max-width: 750px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .history-page {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="index.html" class="brand">
+            <img
+                src="assets/logo.png"
+                alt="LIFE_ID Logo"
+                class="logo"
+            >
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="emergency-card.html">Emergency Card</a>
+        </nav>
+
+        <a
+            href="emergency-access.html"
+            class="nav-emergency"
+        >
+            Emergency Access
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="history-page">
+
+    <div class="page-heading">
+
+        <h1>Access History</h1>
+
+        <p>
+            Monitor and review emergency patient profile access.
+        </p>
+
+    </div>
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                📋
+            </div>
+
+            <span>Total Access Records</span>
+
+            <strong id="totalRecords">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🔐
+            </div>
+
+            <span>Verified Accesses</span>
+
+            <strong id="verifiedRecords">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🚨
+            </div>
+
+            <span>Emergency Accesses</span>
+
+            <strong id="emergencyRecords">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= HISTORY TABLE ================= -->
+
+    <div class="history-card">
+
+        <h2>🔎 Patient Access Records</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Patient LIFE-ID</th>
+
+                        <th>Access Method</th>
+
+                        <th>Hospital Staff</th>
+
+                        <th>Date & Time</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="historyTable">
+
+                    <!-- JavaScript will insert records -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- ================= SECURITY NOTE ================= -->
+
+        <div class="security-note">
+
+            <strong>🔐 Audit & Security:</strong>
+
+            Every emergency profile access should be recorded
+            so that authorized administrators can review
+            who accessed a patient's emergency information
+            and when.
+
+        </div>
+
+
+        <!-- ================= BUTTONS ================= -->
+
+        <div class="actions">
+
+            <button
+                class="action-btn back-btn"
+                onclick="goBack()"
+            >
+                ← Back to Dashboard
+            </button>
+
+            <button
+                class="action-btn clear-btn"
+                onclick="clearHistory()"
+            >
+                Clear Demo History
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadHistory
+    );
+
+
+    function loadHistory() {
+
+        let history = [];
+
+        try {
+
+            history =
+                JSON.parse(
+                    localStorage.getItem(
+                        "accessHistory"
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            history = [];
+
+        }
+
+
+        const table =
+            document.getElementById(
+                "historyTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        /* ================= SUMMARY ================= */
+
+        document.getElementById(
+            "totalRecords"
+        ).textContent = history.length;
+
+
+        document.getElementById(
+            "verifiedRecords"
+        ).textContent = history.filter(
+            record =>
+                record.method &&
+                record.method.toLowerCase()
+                    .includes("fingerprint")
+        ).length;
+
+
+        document.getElementById(
+            "emergencyRecords"
+        ).textContent = history.filter(
+            record =>
+                record.method &&
+                record.method.toLowerCase()
+                    .includes("emergency")
+        ).length;
+
+
+        /* ================= EMPTY STATE ================= */
+
+        if (history.length === 0) {
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td colspan="5">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                📋
+                            </div>
+
+                            <strong>
+                                No access records found
+                            </strong>
+
+                            <p>
+                                Patient access activity
+                                will appear here.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* ================= RECORDS ================= */
+
+        history
+            .slice()
+            .reverse()
+            .forEach(function(record) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const patientID =
+                    record.patientID ||
+                    record.lifeId ||
+                    "LIFE-XXXXXX";
+
+
+                const method =
+                    record.method ||
+                    "Emergency Access";
+
+
+                const staffID =
+                    record.staffID ||
+                    "HOSP-DEMO-001";
+
+
+                const time =
+                    record.time ||
+                    "Not Available";
+
+
+                row.innerHTML = `
+
+                    <td>
+                        <span class="life-id-badge">
+                            ${patientID}
+                        </span>
+                    </td>
+
+                    <td class="method">
+                        ${method}
+                    </td>
+
+                    <td>
+                        ${staffID}
+                    </td>
+
+                    <td>
+                        ${time}
+                    </td>
+
+                    <td>
+                        <span class="verified">
+                            ✓ Verified
+                        </span>
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+    }
+
+
+    /* ================= BACK ================= */
+
+    function goBack() {
+
+        window.location.href =
+            "hospital-dashboard.html";
+
+    }
+
+
+    /* ================= CLEAR DEMO HISTORY ================= */
+
+    function clearHistory() {
+
+        const confirmation =
+            confirm(
+                "Clear all demo access history?"
+            );
+
+
+        if (!confirmation) {
+            return;
+        }
+
+
+        localStorage.removeItem(
+            "accessHistory"
+        );
+
+
+        loadHistory();
+
+    }
+
+</script>
+
+</body>
+</html>

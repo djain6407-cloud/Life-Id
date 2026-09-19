@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Dashboard | LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: #f4f8fb;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            color: #12355b;
+        }
+
+        .page-header p {
+            color: #667085;
+            margin-top: 8px;
+        }
+
+        .verified-badge {
+            background: #e8f7ee;
+            color: #17834b;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .emergency-banner {
+            background: #fff0f0;
+            border-left: 5px solid #d62828;
+            padding: 18px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .emergency-banner h3 {
+            color: #c62828;
+            margin: 0 0 6px;
+        }
+
+        .emergency-banner p {
+            margin: 0;
+            color: #555;
+        }
+
+        .patient-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .patient-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .patient-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #12355b;
+        }
+
+        .life-id {
+            display: inline-block;
+            margin-top: 7px;
+            background: #edf5ff;
+            color: #1769aa;
+            padding: 7px 12px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .risk-high {
+            background: #ffe5e5;
+            color: #c62828;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .info-box span {
+            display: block;
+            color: #7b8494;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .info-box strong {
+            color: #172b4d;
+            font-size: 17px;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .section-card h2 {
+            color: #12355b;
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .medical-item {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .medical-item:last-child {
+            border-bottom: none;
+        }
+
+        .medical-item span {
+            display: block;
+            color: #7b8494;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .medical-item strong {
+            color: #263238;
+        }
+
+        .contact-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .contact-info strong {
+            color: #172b4d;
+        }
+
+        .contact-info small {
+            display: block;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        .contact-status {
+            color: #17834b;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .ai-box {
+            background: #eef6ff;
+            border: 1px solid #cfe4ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+        }
+
+        .ai-box h3 {
+            color: #1769aa;
+            margin-top: 0;
+        }
+
+        .ai-box p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .action-area {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 14px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .alert-btn {
+            background: #d62828;
+            color: white;
+        }
+
+        .history-btn {
+            background: #edf2f7;
+            color: #12355b;
+        }
+
+        .logout-btn {
+            background: #fff;
+            color: #c62828;
+            border: 1px solid #f0b5b5;
+        }
+
+        .access-info {
+            margin-top: 25px;
+            background: #f1faf5;
+            padding: 15px;
+            border-radius: 10px;
+            color: #26734d;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-header,
+            .patient-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+    <div class="nav-container">
+
+        <a href="index.html" class="brand">
+            <img src="assets/logo.png" alt="LIFE_ID Logo" class="logo">
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="emergency-card.html">Emergency Card</a>
+        </nav>
+
+        <a href="emergency-access.html" class="nav-emergency">
+            Emergency Access
+        </a>
+
+    </div>
+</header>
+
+
+<!-- ================= MAIN DASHBOARD ================= -->
+
+<main class="dashboard-container">
+
+    <div class="page-header">
+
+        <div>
+            <h1>Hospital Emergency Dashboard</h1>
+            <p>Patient emergency information and verified medical profile</p>
+        </div>
+
+        <div class="verified-badge">
+            ✓ Identity Verified
+        </div>
+
+    </div>
+
+
+    <!-- Emergency Banner -->
+
+    <div class="emergency-banner">
+
+        <h3>🚨 Emergency Access Mode</h3>
+
+        <p>
+            This patient profile was accessed through LIFE-ID
+            and verified using secure biometric authentication.
+        </p>
+
+    </div>
+
+
+    <!-- ================= PATIENT PROFILE ================= -->
+
+    <div class="patient-card">
+
+        <div class="patient-top">
+
+            <div>
+                <div class="patient-name" id="patientName">
+                    Patient Name
+                </div>
+
+                <div class="life-id" id="lifeId">
+                    LIFE-XXXXXX
+                </div>
+            </div>
+
+            <div class="risk-high" id="riskStatus">
+                ⚠ HIGH PRIORITY
+            </div>
+
+        </div>
+
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <span>Blood Group</span>
+                <strong id="bloodGroup">--</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Allergies</span>
+                <strong id="allergies">--</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Medical Conditions</span>
+                <strong id="conditions">--</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Medications</span>
+                <strong id="medications">--</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TWO COLUMN SECTION ================= -->
+
+    <div class="section-grid">
+
+        <!-- Medical Information -->
+
+        <div class="section-card">
+
+            <h2>🩺 Medical Information</h2>
+
+            <div class="medical-item">
+                <span>Blood Group</span>
+                <strong id="medicalBlood">Not Available</strong>
+            </div>
+
+            <div class="medical-item">
+                <span>Allergies</span>
+                <strong id="medicalAllergies">Not Available</strong>
+            </div>
+
+            <div class="medical-item">
+                <span>Existing Conditions</span>
+                <strong id="medicalConditions">Not Available</strong>
+            </div>
+
+            <div class="medical-item">
+                <span>Current Medications</span>
+                <strong id="medicalMedications">Not Available</strong>
+            </div>
+
+        </div>
+
+
+        <!-- Emergency Contacts -->
+
+        <div class="section-card">
+
+            <h2>📞 Emergency Contacts</h2>
+
+            <div id="contactsContainer">
+
+                <div class="contact-card">
+
+                    <div class="contact-info">
+                        <strong>Emergency Contact</strong>
+                        <small id="contactNumber">Not Available</small>
+                    </div>
+
+                    <div class="contact-status">
+                        ✓ Available
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= AI ANALYSIS ================= -->
+
+    <div class="ai-box">
+
+        <h3>🤖 AI-Assisted Emergency Risk Prioritization</h3>
+
+        <p id="aiResult">
+            The system analyzes available medical information
+            to help hospital staff prioritize emergency attention.
+        </p>
+
+        <small>
+            ⚠ This is decision-support information only and
+            does not replace professional medical diagnosis.
+        </small>
+
+    </div>
+
+
+    <!-- ================= ACCESS INFORMATION ================= -->
+
+    <div class="access-info">
+
+        <strong>🔐 Secure Access:</strong>
+
+        Patient information was accessed after
+        LIFE-ID identification and biometric verification.
+
+        <br><br>
+
+        <strong>Access Time:</strong>
+        <span id="accessTime">--</span>
+
+        <br>
+
+        <strong>Hospital Staff ID:</strong>
+        <span id="staffId">HOSP-DEMO-001</span>
+
+    </div>
+
+
+    <!-- ================= ACTION BUTTONS ================= -->
+
+    <div class="action-area">
+
+        <button class="action-btn alert-btn"
+                onclick="sendEmergencyAlert()">
+            🚨 Send Emergency Alert
+        </button>
+
+        <button class="action-btn history-btn"
+                onclick="viewHistory()">
+            📋 View Access History
+        </button>
+
+        <button class="action-btn logout-btn"
+                onclick="logoutHospital()">
+            Logout
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const patientName =
+            localStorage.getItem("patientName") || "Demo Patient";
+
+        const lifeId =
+            localStorage.getItem("lifeId") || "LIFE-7K4P92";
+
+        let medicalProfile = {};
+
+        let emergencyContacts = [];
+
+        try {
+            medicalProfile =
+                JSON.parse(
+                    localStorage.getItem("medicalProfile")
+                ) || {};
+        } catch (error) {
+            medicalProfile = {};
+        }
+
+        try {
+            emergencyContacts =
+                JSON.parse(
+                    localStorage.getItem("emergencyContacts")
+                ) || [];
+        } catch (error) {
+            emergencyContacts = [];
+        }
+
+
+        /* ================= PATIENT BASIC INFO ================= */
+
+        document.getElementById("patientName").textContent =
+            patientName;
+
+        document.getElementById("lifeId").textContent =
+            lifeId;
+
+
+        /* ================= MEDICAL DATA ================= */
+
+        const bloodGroup =
+            medicalProfile.bloodGroup || "Not Available";
+
+        const allergies =
+            medicalProfile.allergies || "No information";
+
+        const conditions =
+            medicalProfile.conditions || "No information";
+
+        const medications =
+            medicalProfile.medications || "No information";
+
+
+        document.getElementById("bloodGroup").textContent =
+            bloodGroup;
+
+        document.getElementById("allergies").textContent =
+            allergies;
+
+        document.getElementById("conditions").textContent =
+            conditions;
+
+        document.getElementById("medications").textContent =
+            medications;
+
+
+        document.getElementById("medicalBlood").textContent =
+            bloodGroup;
+
+        document.getElementById("medicalAllergies").textContent =
+            allergies;
+
+        document.getElementById("medicalConditions").textContent =
+            conditions;
+
+        document.getElementById("medicalMedications").textContent =
+            medications;
+
+
+        /* ================= EMERGENCY CONTACTS ================= */
+
+        const contactsContainer =
+            document.getElementById("contactsContainer");
+
+        contactsContainer.innerHTML = "";
+
+
+        if (
+            Array.isArray(emergencyContacts) &&
+            emergencyContacts.length > 0
+        ) {
+
+            emergencyContacts.forEach(function(contact) {
+
+                const div =
+                    document.createElement("div");
+
+                div.className = "contact-card";
+
+                div.innerHTML = `
+                    <div class="contact-info">
+                        <strong>
+                            ${contact.name || "Emergency Contact"}
+                        </strong>
+
+                        <small>
+                            ${contact.phone || contact.number || "Number unavailable"}
+                        </small>
+                    </div>
+
+                    <div class="contact-status">
+                        ✓ Available
+                    </div>
+                `;
+
+                contactsContainer.appendChild(div);
+
+            });
+
+        } else {
+
+            contactsContainer.innerHTML = `
+                <div class="contact-card">
+                    <div class="contact-info">
+                        <strong>Emergency Contact</strong>
+                        <small>Not Available</small>
+                    </div>
+
+                    <div class="contact-status">
+                        ⚠ Not Added
+                    </div>
+                </div>
+            `;
+
+        }
+
+
+        /* ================= ACCESS TIME ================= */
+
+        const now = new Date();
+
+        document.getElementById("accessTime").textContent =
+            now.toLocaleString();
+
+
+        /* ================= AI RISK ================= */
+
+        let risk = "LOW";
+        let result = "No major emergency indicators found in the available profile.";
+
+        const medicalText =
+            (
+                allergies + " " +
+                conditions + " " +
+                medications
+            ).toLowerCase();
+
+
+        if (
+            medicalText.includes("heart") ||
+            medicalText.includes("cardiac") ||
+            medicalText.includes("stroke") ||
+            medicalText.includes("anaphylaxis") ||
+            medicalText.includes("severe")
+        ) {
+
+            risk = "HIGH";
+
+            result =
+                "The available medical profile contains indicators that may require higher emergency priority.";
+
+        }
+
+        else if (
+            allergies !== "No information" ||
+            conditions !== "No information" ||
+            medications !== "No information"
+        ) {
+
+            risk = "MEDIUM";
+
+            result =
+                "Medical information is available and should be reviewed by hospital staff.";
+
+        }
+
+
+        document.getElementById("riskStatus").textContent =
+            "⚠ " + risk + " PRIORITY";
+
+        document.getElementById("aiResult").textContent =
+            result;
+
+    });
+
+
+    /* ================= SEND ALERT ================= */
+
+    function sendEmergencyAlert() {
+
+        const lifeId =
+            localStorage.getItem("lifeId") || "LIFE-7K4P92";
+
+        localStorage.setItem(
+            "lastEmergencyAlert",
+            new Date().toLocaleString()
+        );
+
+        alert(
+            "🚨 EMERGENCY ALERT DEMO\n\n" +
+            "Emergency contacts would be notified for:\n" +
+            lifeId +
+            "\n\n" +
+            "In the real application, this action would trigger secure SMS/push notifications through the backend."
+        );
+
+        window.location.href =
+            "emergency-alert.html";
+    }
+
+
+    /* ================= ACCESS HISTORY ================= */
+
+    function viewHistory() {
+
+        window.location.href =
+            "access-history.html";
+
+    }
+
+
+    /* ================= LOGOUT ================= */
+
+    function logoutHospital() {
+
+        const confirmLogout =
+            confirm(
+                "Are you sure you want to logout?"
+            );
+
+        if (confirmLogout) {
+
+            window.location.href =
+                "hospital-login.html";
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>

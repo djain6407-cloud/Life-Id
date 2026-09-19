@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Contacts - LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .contacts-page {
+            min-height: calc(100vh - 90px);
+            padding: 45px 20px 70px;
+            background: #f7fbfc;
+        }
+
+        .contacts-container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* ================= PROGRESS ================= */
+
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 80px;
+        }
+
+        .progress-step {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step-wrapper {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            background: #0c8997;
+            color: white;
+            font-weight: 700;
+        }
+
+        .step-circle.inactive {
+            background: #dce8eb;
+            color: #627680;
+        }
+
+        .step-line {
+            width: 50px;
+            height: 2px;
+            background: #dce8eb;
+            margin-top: 18px;
+        }
+
+        .step-label {
+            display: block;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #526875;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        /* ================= CARD ================= */
+
+        .contacts-card {
+            background: white;
+            border: 1px solid #e0ebee;
+            border-radius: 22px;
+            padding: 42px;
+            box-shadow: 0 15px 45px rgba(20, 70, 80, 0.08);
+        }
+
+        .contacts-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contacts-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            background: #fff0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 30px;
+        }
+
+        .contacts-header h1 {
+            color: #073b4c;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .contacts-header p {
+            color: #657985;
+            line-height: 1.6;
+        }
+
+        /* ================= LIFE ID ================= */
+
+        .life-id-box {
+            background: #eef9fa;
+            border: 1px solid #ccecef;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 30px;
+        }
+
+        .life-id-box span {
+            display: block;
+            font-size: 12px;
+            color: #657985;
+            margin-bottom: 4px;
+        }
+
+        .life-id-box strong {
+            color: #087582;
+            font-size: 18px;
+        }
+
+        /* ================= CONTACT ================= */
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            border: 1px solid #dfeaec;
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: #eaf8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-info h3 {
+            margin: 0 0 5px;
+            color: #123f4d;
+            font-size: 15px;
+        }
+
+        .contact-info p {
+            margin: 0;
+            color: #71838b;
+            font-size: 13px;
+        }
+
+        .contact-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #e8f8ef;
+            color: #159447;
+        }
+
+        .remove-btn {
+            border: none;
+            background: #fff0f0;
+            color: #e34d50;
+            padding: 8px 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* ================= ADD CONTACT ================= */
+
+        .add-contact {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px dashed #b9d6db;
+            border-radius: 14px;
+            background: #fbfdfe;
+        }
+
+        .add-contact h2 {
+            margin-top: 0;
+            color: #073b4c;
+            font-size: 18px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            color: #173f4c;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #d8e5e9;
+            border-radius: 9px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0c8997;
+        }
+
+        .add-btn {
+            margin-top: 10px;
+            border: none;
+            background: #0c8997;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ================= MULTI PROFILE ================= */
+
+        .dependent-box {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 13px;
+            background: #f5f8fa;
+            border: 1px solid #e1eaed;
+        }
+
+        .dependent-box h2 {
+            font-size: 17px;
+            color: #073b4c;
+            margin-top: 0;
+        }
+
+        .dependent-box p {
+            font-size: 13px;
+            color: #6d7f87;
+            line-height: 1.6;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 13px;
+            color: #425963;
+        }
+
+        .checkbox-row input {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ================= PRIVACY ================= */
+
+        .privacy-note {
+            background: #f6f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #637781;
+            line-height: 1.6;
+        }
+
+        /* ================= ACTION ================= */
+
+        .contacts-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .continue-btn {
+            border: none;
+            background: #ff5558;
+            color: white;
+            padding: 14px 27px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .continue-btn:hover {
+            background: #ed4548;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .contacts-card {
+                padding: 25px 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .progress-step {
+                width: 70px;
+            }
+
+            .step-line {
+                width: 25px;
+            }
+
+            .step-label {
+                display: none;
+            }
+
+            .contact-item {
+                align-items: flex-start;
+            }
+
+            .contact-badge {
+                display: none;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="brand">
+                <img
+                    src="assets/logo.png"
+                    alt="LIFE_ID Logo"
+                    class="logo"
+                >
+            </a>
+
+            <nav class="nav-links">
+
+                <a href="index.html">Home</a>
+
+                <a href="index.html#how-it-works">
+                    How It Works
+                </a>
+
+                <a href="index.html#features">
+                    Features
+                </a>
+
+                <a href="index.html#about">
+                    About
+                </a>
+
+            </nav>
+
+            <a
+                href="emergency-access.html"
+                class="nav-emergency"
+            >
+                Emergency Access
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="contacts-page">
+
+        <div class="contacts-container">
+
+
+            <!-- ================= PROGRESS ================= -->
+
+            <div class="progress-container">
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle">
+                            ✓
+                        </div>
+
+                        <span class="step-label">
+                            Verify Identity
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle">
+                            ✓
+                        </div>
+
+                        <span class="step-label">
+                            Create LIFE_ID
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle">
+                            ✓
+                        </div>
+
+                        <span class="step-label">
+                            Medical Profile
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle">
+                            4
+                        </div>
+
+                        <span class="step-label">
+                            Emergency Contacts
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= MAIN CARD ================= -->
+
+            <section class="contacts-card">
+
+
+                <div class="contacts-header">
+
+                    <div class="contacts-icon">
+                        🚨
+                    </div>
+
+                    <h1>
+                        Emergency Contacts
+                    </h1>
+
+                    <p>
+                        Add trusted people who should be contacted
+                        during an emergency.
+                    </p>
+
+                </div>
+
+
+                <!-- LIFE ID -->
+
+                <div class="life-id-box">
+
+                    <span>
+                        Emergency Profile
+                    </span>
+
+                    <strong id="lifeIdDisplay">
+                        LIFE-XXXXXX
+                    </strong>
+
+                </div>
+
+
+                <!-- ================= CONTACT LIST ================= -->
+
+                <h2 style="color:#073b4c;">
+                    Your Emergency Contacts
+                </h2>
+
+                <div
+                    class="contact-list"
+                    id="contactList"
+                >
+
+                    <!-- Contacts will appear here -->
+
+                </div>
+
+
+                <!-- ================= ADD CONTACT ================= -->
+
+                <div class="add-contact">
+
+                    <h2>
+                        + Add Emergency Contact
+                    </h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="contactName">
+                                Contact Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="contactName"
+                                placeholder="Example: Parent"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="relationship">
+                                Relationship
+                            </label>
+
+                            <select id="relationship">
+
+                                <option value="">
+                                    Select relationship
+                                </option>
+
+                                <option>Parent</option>
+                                <option>Guardian</option>
+                                <option>Sibling</option>
+                                <option>Spouse</option>
+                                <option>Friend</option>
+                                <option>Other</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="contactNumber">
+                                Mobile Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="contactNumber"
+                                placeholder="Enter emergency contact number"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="add-btn"
+                        onclick="addContact()"
+                    >
+                        Add Contact
+                    </button>
+
+                </div>
+
+
+                <!-- ================= MULTIPLE PROFILE ================= -->
+
+                <div class="dependent-box">
+
+                    <h2>
+                        👨‍👩‍👧 Family / Dependent Profiles
+                    </h2>
+
+                    <p>
+                        One emergency contact can be connected to
+                        multiple LIFE_ID profiles. For example, a parent
+                        can manage emergency contacts for their child
+                        even if the child does not have their own phone.
+                    </p>
+
+                    <label class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="familyLink"
+                        >
+
+                        Allow this emergency contact to be linked
+                        with another LIFE_ID profile.
+
+                    </label>
+
+                </div>
+
+
+                <!-- PRIVACY -->
+
+                <div class="privacy-note">
+
+                    🔒 <strong>Privacy:</strong>
+                    Emergency contacts are intended only for emergency
+                    communication. This hackathon prototype stores
+                    demonstration data locally in the browser.
+
+                </div>
+
+
+                <!-- ACTION -->
+
+                <div class="contacts-actions">
+
+                    <button
+                        type="button"
+                        class="continue-btn"
+                        onclick="saveContacts()"
+                    >
+                        Complete Profile →
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ================= LIFE ID ================= */
+
+        const lifeId =
+            localStorage.getItem("lifeId");
+
+        if (lifeId) {
+
+            document.getElementById(
+                "lifeIdDisplay"
+            ).textContent = lifeId;
+
+        }
+
+
+        /* ================= CONTACT DATA ================= */
+
+        let contacts =
+            JSON.parse(
+                localStorage.getItem("emergencyContacts")
+            ) || [];
+
+
+        /* ================= DISPLAY CONTACTS ================= */
+
+        function displayContacts() {
+
+            const list =
+                document.getElementById("contactList");
+
+            list.innerHTML = "";
+
+
+            if (contacts.length === 0) {
+
+                list.innerHTML = `
+                    <div style="
+                        padding:20px;
+                        text-align:center;
+                        color:#7a8b92;
+                        border:1px dashed #d7e4e7;
+                        border-radius:12px;
+                    ">
+                        No emergency contacts added yet.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            contacts.forEach(function(contact, index) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className = "contact-item";
+
+                item.innerHTML = `
+
+                    <div class="contact-icon">
+                        👤
+                    </div>
+
+                    <div class="contact-info">
+
+                        <h3>
+                            ${contact.name}
+                        </h3>
+
+                        <p>
+                            ${contact.relationship}
+                            • ${contact.number}
+                        </p>
+
+                    </div>
+
+                    <div class="contact-badge">
+                        Emergency Contact
+                    </div>
+
+                    <button
+                        class="remove-btn"
+                        onclick="removeContact(${index})"
+                    >
+                        Remove
+                    </button>
+
+                `;
+
+                list.appendChild(item);
+
+            });
+
+        }
+
+
+        /* ================= ADD CONTACT ================= */
+
+        function addContact() {
+
+            const name =
+                document.getElementById(
+                    "contactName"
+                ).value.trim();
+
+            const relationship =
+                document.getElementById(
+                    "relationship"
+                ).value;
+
+            const number =
+                document.getElementById(
+                    "contactNumber"
+                ).value.trim();
+
+
+            if (!name || !relationship || !number) {
+
+                alert(
+                    "Please enter contact name, relationship and mobile number."
+                );
+
+                return;
+
+            }
+
+
+            const contact = {
+
+                name: name,
+
+                relationship: relationship,
+
+                number: number
+
+            };
+
+
+            contacts.push(contact);
+
+
+            localStorage.setItem(
+                "emergencyContacts",
+                JSON.stringify(contacts)
+            );
+
+
+            document.getElementById(
+                "contactName"
+            ).value = "";
+
+            document.getElementById(
+                "relationship"
+            ).value = "";
+
+            document.getElementById(
+                "contactNumber"
+            ).value = "";
+
+
+            displayContacts();
+
+        }
+
+
+        /* ================= REMOVE CONTACT ================= */
+
+        function removeContact(index) {
+
+            contacts.splice(index, 1);
+
+            localStorage.setItem(
+                "emergencyContacts",
+                JSON.stringify(contacts)
+            );
+
+            displayContacts();
+
+        }
+
+
+        /* ================= SAVE ================= */
+
+        function saveContacts() {
+
+            if (contacts.length === 0) {
+
+                alert(
+                    "Please add at least one emergency contact."
+                );
+
+                return;
+
+            }
+
+
+            const familyLink =
+                document.getElementById(
+                    "familyLink"
+                ).checked;
+
+
+            localStorage.setItem(
+                "familyLinkEnabled",
+                familyLink
+            );
+
+
+            alert(
+                "LIFE_ID profile completed successfully!"
+            );
+
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+        /* Initial display */
+
+        displayContacts();
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ===============================
+           CREATE LIFE_ID PAGE
+        =============================== */
+
+        .verification-page {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            background: #f7fbfc;
+        }
+
+        .verification-container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Progress */
+
+        .progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 80px;
+}
+        .progress-step {
+            display: flex;
+            align-items: center;
+        }
+        .progress-step {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0c8997;
+            color: white;
+            font-weight: 700;
+        }
+
+        .step-circle.inactive {
+            background: #dce8eb;
+            color: #6b7c85;
+        }
+
+        .step-line {
+    width: 50px;
+    height: 2px;
+    background: #dce8eb;
+    margin-top: 18px;
+}
+
+        .step-label {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #526875;
+    white-space: nowrap;
+    text-align: center;
+}
+
+     .step-wrapper {
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+        /* Main Card */
+
+        .verification-card {
+            background: white;
+            border: 1px solid #e2ecef;
+            border-radius: 22px;
+            padding: 45px;
+            box-shadow: 0 15px 45px rgba(20, 70, 80, 0.08);
+        }
+
+        .verification-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .verification-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            background: #e8f8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 32px;
+        }
+
+        .verification-header h1 {
+            color: #073b4c;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .verification-header p {
+            color: #657985;
+            max-width: 550px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* Form */
+
+        .form-section {
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #173f4c;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #d8e5e9;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0c8997;
+            box-shadow: 0 0 0 3px rgba(12, 137, 151, 0.08);
+        }
+
+        .demo-notice {
+            background: #fff8e7;
+            border: 1px solid #f1df9e;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 25px;
+            color: #705d21;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .verification-button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            background: #0c8997;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .verification-button:hover {
+            background: #087582;
+            transform: translateY(-1px);
+        }
+
+        .security-note {
+            text-align: center;
+            margin-top: 18px;
+            color: #71838b;
+            font-size: 12px;
+        }
+
+        /* Success */
+
+        .success-box {
+            display: none;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #e9f9ef;
+            color: #18a957;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 38px;
+            margin: 0 auto 20px;
+        }
+
+        .generated-id {
+            background: #f1f8fa;
+            border: 1px dashed #0c8997;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 22px 0;
+        }
+
+        .generated-id span {
+            display: block;
+            font-size: 12px;
+            color: #687b84;
+            margin-bottom: 6px;
+        }
+
+        .generated-id strong {
+            font-size: 24px;
+            color: #087582;
+            letter-spacing: 1px;
+        }
+
+        .continue-button {
+            display: inline-block;
+            text-decoration: none;
+            background: #ff5558;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 650px) {
+
+            .verification-card {
+                padding: 28px 20px;
+            }
+
+            .verification-header h1 {
+                font-size: 25px;
+            }
+
+            .step-line {
+                width: 35px;
+            }
+
+            .step-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="brand">
+                <img src="assets/logo.png" alt="LIFE_ID Logo" class="logo">
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#about">About</a>
+            </nav>
+
+            <a href="emergency-access.html" class="nav-emergency">
+                Emergency Access
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="verification-page">
+
+        <div class="verification-container">
+
+            <!-- Progress -->
+
+            <div class="progress-container">
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle">
+                            1
+                        </div>
+
+                        <span class="step-label">
+                            Verify Identity
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="step-line"></div>
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle inactive">
+                            2
+                        </div>
+
+                        <span class="step-label">
+                            Create LIFE_ID
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="step-line"></div>
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle inactive">
+                            3
+                        </div>
+
+                        <span class="step-label">
+                            Medical Profile
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="step-line"></div>
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle inactive">
+                            4
+                        </div>
+
+                        <span class="step-label">
+                            Emergency Contacts
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Verification Card -->
+
+            <section class="verification-card">
+
+                <!-- FORM -->
+
+                <div id="verificationForm">
+
+                    <div class="verification-header">
+
+                        <div class="verification-icon">
+                            🪪
+                        </div>
+
+                        <h1>Create Your LIFE_ID</h1>
+
+                        <p>
+                            Verify your identity first to create a secure
+                            emergency medical identity profile.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-section">
+
+                        <div class="demo-notice">
+
+                            <strong>Demo Verification</strong><br>
+
+                            This prototype uses mock identity verification.
+                            Do not enter your real Aadhaar number or other
+                            sensitive personal information.
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="fullName">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="fullName"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="dob">
+                                Date of Birth
+                            </label>
+
+                            <input
+                                type="date"
+                                id="dob"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="demoId">
+                                Demo Identity ID
+                            </label>
+
+                            <input
+                                type="text"
+                                id="demoId"
+                                placeholder="Example: DEMO-123456"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="verification-button"
+                            onclick="verifyIdentity()"
+                        >
+                            Verify Identity & Continue →
+                        </button>
+
+
+                        <div class="security-note">
+                            🔒 Your identity information is protected in this prototype.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUCCESS -->
+
+                <div id="successBox" class="success-box">
+
+                    <div class="success-icon">
+                        ✓
+                    </div>
+
+                    <h1>Identity Verified</h1>
+
+                    <p>
+                        Your identity has been successfully verified.
+                        A unique LIFE_ID has been generated for your emergency profile.
+                    </p>
+
+
+                    <div class="generated-id">
+
+                        <span>
+                            Your LIFE_ID
+                        </span>
+
+                        <strong id="generatedLifeId">
+                            LIFE-XXXXXX
+                        </strong>
+
+                    </div>
+
+
+                    <p style="color:#657985;font-size:14px;">
+                        Next, you will add your medical information and
+                        emergency contacts.
+                    </p>
+
+
+                    <a
+                        href="profile.html"
+                        class="continue-button"
+                    >
+                        Continue to Medical Profile →
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        function verifyIdentity() {
+
+            const name =
+                document.getElementById("fullName").value.trim();
+
+            const dob =
+                document.getElementById("dob").value;
+
+            const demoId =
+                document.getElementById("demoId").value.trim();
+
+
+            if (!name || !dob || !demoId) {
+
+                alert("Please fill all required fields.");
+
+                return;
+            }
+
+
+            /*
+                Generate demo LIFE_ID
+
+                Example:
+                LIFE-7K4P92
+            */
+
+            const characters =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            let randomCode = "";
+
+            for (let i = 0; i < 6; i++) {
+
+                randomCode +=
+                    characters.charAt(
+                        Math.floor(
+                            Math.random() * characters.length
+                        )
+                    );
+
+            }
+
+
+            const lifeId =
+                "LIFE-" + randomCode;
+
+
+            /*
+                Save demo profile data
+                in browser storage.
+            */
+
+            localStorage.setItem(
+                "lifeId",
+                lifeId
+            );
+
+            localStorage.setItem(
+                "userName",
+                name
+            );
+
+            localStorage.setItem(
+                "userDOB",
+                dob
+            );
+
+
+            /*
+                Hide verification form
+            */
+
+            document.getElementById(
+                "verificationForm"
+            ).style.display = "none";
+
+
+            /*
+                Show success
+            */
+
+            document.getElementById(
+                "successBox"
+            ).style.display = "block";
+
+
+            /*
+                Display generated LIFE_ID
+            */
+
+            document.getElementById(
+                "generatedLifeId"
+            ).textContent = lifeId;
+
+        }
+
+    </script>
+
+</body>
+</html>

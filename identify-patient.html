@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LIFE_ID | Identify Patient</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f8fc;
+            color: #243447;
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .ip-navbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+        }
+
+
+        .ip-nav-container {
+            width: 100%;
+            max-width: 1180px;
+            margin: auto;
+            padding: 0 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .ip-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+
+            color: #12395b;
+
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+
+        .ip-logo img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+
+        .ip-hospital {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: #475467;
+            font-size: 13px;
+        }
+
+
+        .ip-hospital-badge {
+            background: #ecfdf3;
+            color: #15803d;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .ip-page {
+            max-width: 1000px;
+            margin: auto;
+
+            padding: 45px 20px 60px;
+        }
+
+
+        .ip-heading {
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .ip-heading h1 {
+            color: #12395b;
+            font-size: 32px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .ip-heading p {
+            color: #667085;
+            font-size: 14px;
+        }
+
+
+        /* ================= STEP BAR ================= */
+
+        .ip-steps {
+            max-width: 700px;
+            margin: 0 auto 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .ip-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #12395b;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+
+        .ip-step-number {
+            width: 32px;
+            height: 32px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #12395b;
+            color: white;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        .ip-step-line {
+            width: 65px;
+            height: 2px;
+
+            background: #d0d5dd;
+
+            margin: 0 10px;
+        }
+
+
+        /* ================= MAIN GRID ================= */
+
+        .ip-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 22px;
+        }
+
+
+        /* ================= SEARCH CARD ================= */
+
+        .ip-card {
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 17px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .ip-card-header {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .ip-card-icon {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 12px;
+
+            background: #eaf3ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+
+        .ip-card-header h2 {
+            color: #12395b;
+
+            font-size: 19px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .ip-card-header p {
+            color: #667085;
+
+            font-size: 12px;
+        }
+
+
+        /* ================= INPUT ================= */
+
+        .ip-label {
+            display: block;
+
+            color: #344054;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .ip-input {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #d0d5dd;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+        }
+
+
+        .ip-input:focus {
+            border-color: #1261a0;
+
+            box-shadow:
+                0 0 0 3px rgba(18, 97, 160, 0.10);
+        }
+
+
+        .ip-hint {
+            color: #98a2b3;
+
+            font-size: 11px;
+
+            margin-top: 7px;
+        }
+
+
+        /* ================= SEARCH BUTTON ================= */
+
+        .ip-search-btn {
+            width: 100%;
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 14px;
+
+            background: #12395b;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 18px;
+        }
+
+
+        .ip-search-btn:hover {
+            background: #0d2f4d;
+        }
+
+
+        /* ================= RESULT ================= */
+
+        .ip-result {
+            display: none;
+
+            margin-top: 20px;
+
+            background: #ecfdf3;
+
+            border: 1px solid #bbf7d0;
+
+            border-radius: 12px;
+
+            padding: 17px;
+        }
+
+
+        .ip-result-title {
+            color: #166534;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+
+        .ip-result-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 7px 0;
+
+            border-bottom: 1px solid #d9f5df;
+
+            font-size: 12px;
+        }
+
+
+        .ip-result-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .ip-result-label {
+            color: #667085;
+        }
+
+
+        .ip-result-value {
+            color: #344054;
+            font-weight: 600;
+            text-align: right;
+        }
+
+
+        /* ================= ERROR ================= */
+
+        .ip-error {
+            display: none;
+
+            margin-top: 15px;
+
+            background: #fff1f2;
+
+            border: 1px solid #fecdd3;
+
+            color: #be123c;
+
+            padding: 12px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* ================= SECURITY CARD ================= */
+
+        .ip-security {
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            margin-top: 20px;
+        }
+
+
+        .ip-security-title {
+            color: #12395b;
+
+            font-weight: bold;
+
+            font-size: 13px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .ip-security p {
+            color: #667085;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= NEXT BUTTON ================= */
+
+        .ip-next-btn {
+            display: none;
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 13px;
+
+            margin-top: 18px;
+
+            background: #dc2626;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .ip-next-btn:hover {
+            background: #b91c1c;
+        }
+
+
+        /* ================= RIGHT INFORMATION ================= */
+
+        .ip-info-box {
+            background: #12395b;
+
+            color: white;
+
+            border-radius: 17px;
+
+            padding: 30px;
+
+            min-height: 100%;
+        }
+
+
+        .ip-info-box h2 {
+            font-size: 21px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .ip-info-box > p {
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            opacity: 0.85;
+
+            margin-bottom: 25px;
+        }
+
+
+        .ip-info-item {
+            display: flex;
+
+            gap: 13px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .ip-info-icon {
+            width: 35px;
+            height: 35px;
+
+            flex-shrink: 0;
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.12);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .ip-info-item h3 {
+            font-size: 13px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .ip-info-item p {
+            font-size: 11px;
+
+            line-height: 1.5;
+
+            opacity: 0.75;
+        }
+
+
+        /* ================= FOOTER NOTE ================= */
+
+        .ip-footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: #98a2b3;
+
+            font-size: 11px;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 750px) {
+
+            .ip-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ip-page {
+                padding: 30px 15px 50px;
+            }
+
+            .ip-heading h1 {
+                font-size: 27px;
+            }
+
+            .ip-steps {
+                transform: scale(0.85);
+            }
+
+            .ip-hospital span:first-child {
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .ip-nav-container {
+                padding: 0 15px;
+            }
+
+            .ip-hospital-badge {
+                display: none;
+            }
+
+            .ip-step-line {
+                width: 25px;
+                margin: 0 5px;
+            }
+
+            .ip-step {
+                font-size: 10px;
+            }
+
+            .ip-step-number {
+                width: 28px;
+                height: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="ip-navbar">
+
+        <div class="ip-nav-container">
+
+
+            <a href="index.html"
+               class="ip-logo">
+
+                <img
+                    src="assets/logo.png"
+                    alt="LIFE_ID"
+                >
+
+                <span>LIFE_ID</span>
+
+            </a>
+
+
+            <div class="ip-hospital">
+
+                <span>
+                    Hospital Portal
+                </span>
+
+                <span class="ip-hospital-badge">
+                    ✓ STAFF ACCESS
+                </span>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= PAGE ================= -->
+
+    <main class="ip-page">
+
+
+        <div class="ip-heading">
+
+            <h1>Identify Patient</h1>
+
+            <p>
+                Enter the patient's LIFE-ID to securely
+                locate their emergency profile.
+            </p>
+
+        </div>
+
+
+
+        <!-- ================= STEPS ================= -->
+
+        <div class="ip-steps">
+
+            <div class="ip-step">
+
+                <span class="ip-step-number">
+                    1
+                </span>
+
+                <span>
+                    Identify
+                </span>
+
+            </div>
+
+
+            <div class="ip-step-line"></div>
+
+
+            <div class="ip-step">
+
+                <span
+                    class="ip-step-number"
+                    style="background:#d0d5dd;color:#667085;"
+                >
+                    2
+                </span>
+
+                <span style="color:#98a2b3;">
+                    Verify
+                </span>
+
+            </div>
+
+
+            <div class="ip-step-line"></div>
+
+
+            <div class="ip-step">
+
+                <span
+                    class="ip-step-number"
+                    style="background:#d0d5dd;color:#667085;"
+                >
+                    3
+                </span>
+
+                <span style="color:#98a2b3;">
+                    Access
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= GRID ================= -->
+
+        <div class="ip-grid">
+
+
+            <!-- ================= SEARCH ================= -->
+
+            <section class="ip-card">
+
+
+                <div class="ip-card-header">
+
+                    <div class="ip-card-icon">
+                        🆔
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            LIFE-ID Search
+                        </h2>
+
+                        <p>
+                            Patient identification
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="ip-label"
+                    for="lifeIdInput"
+                >
+                    Patient LIFE-ID
+                </label>
+
+
+                <input
+                    type="text"
+                    id="lifeIdInput"
+                    class="ip-input"
+                    placeholder="Example: LIFE-7K4P92"
+                    maxlength="20"
+                >
+
+
+                <p class="ip-hint">
+                    Enter the unique LIFE-ID shown on the
+                    patient's emergency card.
+                </p>
+
+
+                <button
+                    class="ip-search-btn"
+                    onclick="findPatient()"
+                >
+                    🔍 Find Patient
+                </button>
+
+
+                <!-- ERROR -->
+
+                <div
+                    class="ip-error"
+                    id="ipError"
+                >
+                    Patient not found. Please check the
+                    LIFE-ID and try again.
+                </div>
+
+
+                <!-- RESULT -->
+
+                <div
+                    class="ip-result"
+                    id="patientResult"
+                >
+
+                    <div class="ip-result-title">
+
+                        ✓ Patient Found
+
+                    </div>
+
+
+                    <div class="ip-result-row">
+
+                        <span class="ip-result-label">
+                            Patient
+                        </span>
+
+                        <span
+                            class="ip-result-value"
+                            id="resultName"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="ip-result-row">
+
+                        <span class="ip-result-label">
+                            LIFE-ID
+                        </span>
+
+                        <span
+                            class="ip-result-value"
+                            id="resultLifeId"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="ip-result-row">
+
+                        <span class="ip-result-label">
+                            Blood Group
+                        </span>
+
+                        <span
+                            class="ip-result-value"
+                            id="resultBlood"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="ip-result-row">
+
+                        <span class="ip-result-label">
+                            Emergency Status
+                        </span>
+
+                        <span
+                            class="ip-result-value"
+                            style="color:#15803d;"
+                        >
+                            Profile Available
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NEXT -->
+
+                <button
+                    class="ip-next-btn"
+                    id="verifyBtn"
+                    onclick="continueToVerification()"
+                >
+                    🔐 Continue to Fingerprint Verification →
+                </button>
+
+
+                <!-- SECURITY -->
+
+                <div class="ip-security">
+
+                    <div class="ip-security-title">
+
+                        🔐 Privacy & Security
+
+                    </div>
+
+                    <p>
+                        Patient medical information is not
+                        displayed until the required
+                        verification step is completed.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= INFORMATION ================= -->
+
+            <section class="ip-info-box">
+
+
+                <h2>
+                    Emergency Patient Identification
+                </h2>
+
+
+                <p>
+                    LIFE_ID helps authorized hospital staff
+                    identify an emergency patient when the
+                    patient cannot communicate their identity.
+                </p>
+
+
+
+                <div class="ip-info-item">
+
+                    <div class="ip-info-icon">
+                        🆔
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            LIFE-ID
+                        </h3>
+
+                        <p>
+                            A unique application-generated
+                            identifier for the patient's profile.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="ip-info-item">
+
+                    <div class="ip-info-icon">
+                        👆
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Fingerprint Verification
+                        </h3>
+
+                        <p>
+                            An additional verification step
+                            before sensitive emergency data
+                            is opened.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="ip-info-item">
+
+                    <div class="ip-info-icon">
+                        🏥
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Authorized Access
+                        </h3>
+
+                        <p>
+                            Only authorized hospital staff
+                            should access emergency profiles.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="ip-info-item">
+
+                    <div class="ip-info-icon">
+                        📋
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Access History
+                        </h3>
+
+                        <p>
+                            Patient profile access can be
+                            recorded for an audit trail.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+
+
+        <div class="ip-footer">
+
+            LIFE_ID Emergency Identification System
+            · Hospital Emergency Portal · Demo Prototype
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+
+        let patientFound = false;
+
+
+        /* ================= FIND PATIENT ================= */
+
+        function findPatient() {
+
+            const input =
+                document.getElementById("lifeIdInput");
+
+            const enteredId =
+                input.value.trim().toUpperCase();
+
+
+            const error =
+                document.getElementById("ipError");
+
+            const result =
+                document.getElementById("patientResult");
+
+            const verifyBtn =
+                document.getElementById("verifyBtn");
+
+
+            error.style.display = "none";
+
+            result.style.display = "none";
+
+            verifyBtn.style.display = "none";
+
+
+            if (!enteredId) {
+
+                error.textContent =
+                    "Please enter a LIFE-ID.";
+
+                error.style.display = "block";
+
+                return;
+            }
+
+
+            /*
+                Get LIFE-ID saved during profile creation.
+            */
+
+            const savedLifeId =
+                localStorage.getItem("lifeId");
+
+
+            /*
+                Demo LIFE-ID is also accepted
+                for hackathon presentation.
+            */
+
+            const validDemoId =
+                "LIFE-7K4P92";
+
+
+            if (
+                enteredId === savedLifeId ||
+                enteredId === validDemoId
+            ) {
+
+                patientFound = true;
+
+
+                const profile =
+                    getMedicalProfile();
+
+
+                document.getElementById("resultName")
+                    .textContent =
+                    profile.name || "Demo Patient";
+
+
+                document.getElementById("resultLifeId")
+                    .textContent =
+                    enteredId;
+
+
+                document.getElementById("resultBlood")
+                    .textContent =
+                    profile.bloodGroup || "--";
+
+
+                result.style.display = "block";
+
+                verifyBtn.style.display = "block";
+
+            }
+
+            else {
+
+                patientFound = false;
+
+                error.textContent =
+                    "Patient not found. Please check the LIFE-ID and try again.";
+
+                error.style.display = "block";
+
+            }
+
+        }
+
+
+
+        /* ================= PROFILE ================= */
+
+        function getMedicalProfile() {
+
+            try {
+
+                const profile =
+                    JSON.parse(
+                        localStorage.getItem("medicalProfile")
+                    );
+
+                if (profile) {
+                    return profile;
+                }
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "Profile data unavailable"
+                );
+
+            }
+
+
+            /* Demo fallback */
+
+            return {
+
+                name: "Demo Patient",
+
+                bloodGroup: "B+",
+
+                allergies: "None",
+
+                conditions: "None",
+
+                medications: "None"
+
+            };
+
+        }
+
+
+
+        /* ================= CONTINUE ================= */
+
+        function continueToVerification() {
+
+            if (!patientFound) {
+
+                alert(
+                    "Please identify a patient first."
+                );
+
+                return;
+
+            }
+
+
+            const enteredId =
+                document
+                    .getElementById("lifeIdInput")
+                    .value
+                    .trim()
+                    .toUpperCase();
+
+
+            localStorage.setItem(
+                "selectedPatientLifeId",
+                enteredId
+            );
+
+
+            /*
+                Next page performs
+                fingerprint verification.
+            */
+
+            window.location.href =
+                "emergency-access.html";
+
+        }
+
+
+
+        /* ================= ENTER KEY ================= */
+
+        document
+            .getElementById("lifeIdInput")
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (event.key === "Enter") {
+
+                        findPatient();
+
+                    }
+
+                }
+            );
+
+
+        /* ================= HOSPITAL LOGIN CHECK ================= */
+
+        /*
+            For hackathon demo we don't block the page
+            if opened directly.
+        */
+
+    </script>
+
+
+</body>
+
+</html>

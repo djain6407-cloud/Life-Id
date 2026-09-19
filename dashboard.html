@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LIFE_ID Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* ================= PAGE ================= */
+
+        .dashboard-page {
+            min-height: calc(100vh - 82px);
+            background: #f6fafb;
+            padding: 35px 20px 60px;
+        }
+
+        .dashboard-container {
+            max-width: 1180px;
+            margin: auto;
+        }
+
+
+        /* ================= TOP ================= */
+
+        .dashboard-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .welcome-text h1 {
+            margin: 0 0 7px;
+            color: #073b4c;
+            font-size: 30px;
+        }
+
+        .welcome-text p {
+            margin: 0;
+            color: #71838b;
+            font-size: 14px;
+        }
+
+        .profile-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #e9f8ef;
+            color: #159447;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #20a957;
+        }
+
+
+        /* ================= LIFE ID CARD ================= */
+
+        .life-id-dashboard {
+            background: white;
+            border: 1px solid #dce9ec;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(20,70,80,0.06);
+        }
+
+        .life-id-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .life-id-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: #e8f8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .life-id-left small {
+            display: block;
+            color: #7a8a91;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .life-id-left h2 {
+            margin: 0;
+            color: #087582;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .verified {
+            display: inline-block;
+            margin-top: 6px;
+            color: #159447;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .emergency-access-btn {
+            background: #ff5558;
+            color: white;
+            text-decoration: none;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .emergency-access-btn:hover {
+            background: #eb4548;
+        }
+
+
+        /* ================= STAT CARDS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e0ebee;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eef8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .stat-card small {
+            display: block;
+            color: #788990;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card strong {
+            color: #073b4c;
+            font-size: 18px;
+        }
+
+
+        /* ================= CONTENT GRID ================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 22px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid #e0ebee;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-heading h2 {
+            margin: 0;
+            color: #073b4c;
+            font-size: 19px;
+        }
+
+        .edit-link {
+            color: #0c8997;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+
+        /* ================= MEDICAL INFO ================= */
+
+        .medical-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .medical-item {
+            background: #f6f9fa;
+            border-radius: 11px;
+            padding: 15px;
+        }
+
+        .medical-item.full {
+            grid-column: 1 / -1;
+        }
+
+        .medical-item span {
+            display: block;
+            color: #7a8b92;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .medical-item strong {
+            color: #173f4c;
+            font-size: 14px;
+        }
+
+
+        /* ================= CONTACTS ================= */
+
+        .contact-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px;
+            background: #f7fafb;
+            border-radius: 11px;
+        }
+
+        .contact-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e8f8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-details strong {
+            display: block;
+            color: #173f4c;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .contact-details span {
+            color: #7a8b92;
+            font-size: 11px;
+        }
+
+        .contact-number {
+            color: #087582;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .quick-actions {
+            margin-top: 22px;
+        }
+
+        .quick-actions h2 {
+            color: #073b4c;
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .action-card {
+            text-decoration: none;
+            border: 1px solid #e0ebee;
+            background: white;
+            border-radius: 13px;
+            padding: 17px;
+            transition: 0.2s;
+        }
+
+        .action-card:hover {
+            border-color: #9bcdd2;
+            transform: translateY(-2px);
+        }
+
+        .action-card .action-icon {
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .action-card strong {
+            display: block;
+            color: #173f4c;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .action-card span {
+            color: #7a8b92;
+            font-size: 11px;
+        }
+
+
+        /* ================= SECURITY ================= */
+
+        .security-box {
+            margin-top: 22px;
+            padding: 17px;
+            border-radius: 13px;
+            background: #eef9fa;
+            border: 1px solid #ccecef;
+        }
+
+        .security-box strong {
+            color: #087582;
+            font-size: 13px;
+        }
+
+        .security-box p {
+            margin: 6px 0 0;
+            color: #667b83;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .dashboard-top {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .life-id-dashboard {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .emergency-access-btn {
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 550px) {
+
+            .dashboard-page {
+                padding: 25px 15px 50px;
+            }
+
+            .welcome-text h1 {
+                font-size: 25px;
+            }
+
+            .life-id-left {
+                align-items: flex-start;
+            }
+
+            .medical-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .medical-item.full {
+                grid-column: auto;
+            }
+
+            .dashboard-card {
+                padding: 20px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="brand">
+
+                <img
+                    src="assets/logo.png"
+                    alt="LIFE_ID Logo"
+                    class="logo"
+                >
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="index.html#how-it-works">
+                    How It Works
+                </a>
+
+                <a href="index.html#features">
+                    Features
+                </a>
+
+                <a href="index.html#about">
+                    About
+                </a>
+
+            </nav>
+
+
+            <a
+                href="emergency-access.html"
+                class="nav-emergency"
+            >
+                Emergency Access
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <main class="dashboard-page">
+
+        <div class="dashboard-container">
+
+
+            <!-- TOP -->
+
+            <div class="dashboard-top">
+
+                <div class="welcome-text">
+
+                    <h1>
+                        Welcome to LIFE_ID 👋
+                    </h1>
+
+                    <p>
+                        Manage your emergency identity and medical information.
+                    </p>
+
+                </div>
+
+
+                <div class="profile-status">
+
+                    <span class="status-dot"></span>
+
+                    Profile Active
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= LIFE ID ================= -->
+
+            <section class="life-id-dashboard">
+
+                <div class="life-id-left">
+
+                    <div class="life-id-icon">
+                        🪪
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Your Emergency Medical Identity
+                        </small>
+
+                        <h2 id="lifeIdDisplay">
+                            LIFE-XXXXXX
+                        </h2>
+
+                        <span class="verified">
+                            ✓ Identity Verified
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="emergency-access.html"
+                    class="emergency-access-btn"
+                >
+                    🚨 Emergency Access
+                </a>
+
+            </section>
+
+
+            <!-- ================= STATS ================= -->
+
+            <section class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏥
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Medical Profile
+                        </small>
+
+                        <strong>
+                            Complete
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👨‍👩‍👧
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Emergency Contacts
+                        </small>
+
+                        <strong id="contactCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🔐
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Identity Security
+                        </small>
+
+                        <strong>
+                            Verified
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= MAIN GRID ================= -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- MEDICAL PROFILE -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <h2>
+                            Medical Information
+                        </h2>
+
+                        <a
+                            href="profile.html"
+                            class="edit-link"
+                        >
+                            Edit Profile
+                        </a>
+
+                    </div>
+
+
+                    <div class="medical-grid">
+
+
+                        <div class="medical-item">
+
+                            <span>
+                                Blood Group
+                            </span>
+
+                            <strong id="bloodGroup">
+                                Not Provided
+                            </strong>
+
+                        </div>
+
+
+                        <div class="medical-item">
+
+                            <span>
+                                Gender
+                            </span>
+
+                            <strong id="gender">
+                                Not Provided
+                            </strong>
+
+                        </div>
+
+
+                        <div class="medical-item full">
+
+                            <span>
+                                Medical Conditions
+                            </span>
+
+                            <strong id="conditions">
+                                None Provided
+                            </strong>
+
+                        </div>
+
+
+                        <div class="medical-item full">
+
+                            <span>
+                                Allergies
+                            </span>
+
+                            <strong id="allergies">
+                                None Provided
+                            </strong>
+
+                        </div>
+
+
+                        <div class="medical-item full">
+
+                            <span>
+                                Current Medications
+                            </span>
+
+                            <strong id="medications">
+                                None Provided
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- SECURITY -->
+
+                    <div class="security-box">
+
+                        <strong>
+                            🔒 Emergency Information Protected
+                        </strong>
+
+                        <p>
+                            Medical information is intended to help
+                            authorized hospital staff during emergencies.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMERGENCY CONTACTS -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <h2>
+                            Emergency Contacts
+                        </h2>
+
+                        <a
+                            href="emergency-contacts.html"
+                            class="edit-link"
+                        >
+                            Manage
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="contact-summary"
+                        id="contactSummary"
+                    >
+
+                        <!-- Contacts inserted by JavaScript -->
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= QUICK ACTIONS ================= -->
+
+            <section class="quick-actions">
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+
+                <div class="actions-grid">
+
+
+                    <a
+                        href="emergency-card.html"
+                        class="action-card"
+                    >
+
+                        <div class="action-icon">
+                            🪪
+                        </div>
+
+                        <strong>
+                            Emergency Card
+                        </strong>
+
+                        <span>
+                            View your emergency identity card
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="emergency-contacts.html"
+                        class="action-card"
+                    >
+
+                        <div class="action-icon">
+                            👨‍👩‍👧
+                        </div>
+
+                        <strong>
+                            Emergency Contacts
+                        </strong>
+
+                        <span>
+                            Add or manage trusted contacts
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="access-history.html"
+                        class="action-card"
+                    >
+
+                        <div class="action-icon">
+                            📋
+                        </div>
+
+                        <strong>
+                            Access History
+                        </strong>
+
+                        <span>
+                            View emergency profile access
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ================= LIFE ID ================= */
+
+        const lifeId =
+            localStorage.getItem("lifeId");
+
+        if (lifeId) {
+
+            document.getElementById(
+                "lifeIdDisplay"
+            ).textContent = lifeId;
+
+        }
+
+
+        /* ================= MEDICAL PROFILE ================= */
+
+        const medicalProfile =
+            JSON.parse(
+                localStorage.getItem("medicalProfile")
+            );
+
+
+        if (medicalProfile) {
+
+            document.getElementById(
+                "bloodGroup"
+            ).textContent =
+                medicalProfile.bloodGroup || "Not Provided";
+
+
+            document.getElementById(
+                "gender"
+            ).textContent =
+                medicalProfile.gender || "Not Provided";
+
+
+            document.getElementById(
+                "conditions"
+            ).textContent =
+                medicalProfile.conditions || "None Provided";
+
+
+            document.getElementById(
+                "allergies"
+            ).textContent =
+                medicalProfile.allergies || "None Provided";
+
+
+            document.getElementById(
+                "medications"
+            ).textContent =
+                medicalProfile.medications || "None Provided";
+
+        }
+
+
+        /* ================= CONTACTS ================= */
+
+        const contacts =
+            JSON.parse(
+                localStorage.getItem("emergencyContacts")
+            ) || [];
+
+
+        document.getElementById(
+            "contactCount"
+        ).textContent = contacts.length;
+
+
+        const contactSummary =
+            document.getElementById(
+                "contactSummary"
+            );
+
+
+        if (contacts.length === 0) {
+
+            contactSummary.innerHTML = `
+
+                <div style="
+                    padding:20px;
+                    text-align:center;
+                    border:1px dashed #d6e3e6;
+                    border-radius:12px;
+                    color:#788990;
+                    font-size:13px;
+                ">
+
+                    No emergency contacts added.
+
+                    <br><br>
+
+                    <a
+                        href="emergency-contacts.html"
+                        style="
+                            color:#0c8997;
+                            font-weight:700;
+                            text-decoration:none;
+                        "
+                    >
+                        + Add Contact
+                    </a>
+
+                </div>
+
+            `;
+
+        }
+        else {
+
+            contacts.slice(0, 3).forEach(
+                function(contact) {
+
+                    const row =
+                        document.createElement("div");
+
+                    row.className =
+                        "contact-row";
+
+
+                    row.innerHTML = `
+
+                        <div class="contact-avatar">
+                            👤
+                        </div>
+
+                        <div class="contact-details">
+
+                            <strong>
+                                ${contact.name}
+                            </strong>
+
+                            <span>
+                                ${contact.relationship}
+                            </span>
+
+                        </div>
+
+                        <div class="contact-number">
+                            ${contact.number}
+                        </div>
+
+                    `;
+
+
+                    contactSummary.appendChild(row);
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>

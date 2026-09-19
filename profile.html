@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Medical Profile - LIFE_ID</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .profile-page {
+            min-height: calc(100vh - 90px);
+            padding: 45px 20px 70px;
+            background: #f7fbfc;
+        }
+
+        .profile-container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* ================= PROGRESS ================= */
+
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 80px;
+        }
+
+        .progress-step {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step-wrapper {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0c8997;
+            color: white;
+            font-weight: 700;
+            margin: auto;
+        }
+
+        .step-circle.active {
+            background: #0c8997;
+        }
+
+        .step-circle.inactive {
+            background: #dce8eb;
+            color: #627680;
+        }
+
+        .step-line {
+            width: 50px;
+            height: 2px;
+            background: #dce8eb;
+            margin-top: 18px;
+        }
+
+        .step-label {
+            display: block;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #526875;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        /* ================= CARD ================= */
+
+        .profile-card {
+            background: white;
+            border: 1px solid #e0ebee;
+            border-radius: 22px;
+            padding: 42px;
+            box-shadow: 0 15px 45px rgba(20, 70, 80, 0.08);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .profile-icon {
+            width: 68px;
+            height: 68px;
+            margin: auto;
+            border-radius: 18px;
+            background: #e8f8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 16px;
+        }
+
+        .profile-header h1 {
+            color: #073b4c;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .profile-header p {
+            color: #657985;
+            line-height: 1.6;
+        }
+
+        /* ================= LIFE ID ================= */
+
+        .life-id-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #eef9fa;
+            border: 1px solid #ccecef;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 30px;
+        }
+
+        .life-id-box span {
+            display: block;
+            font-size: 12px;
+            color: #657985;
+            margin-bottom: 4px;
+        }
+
+        .life-id-box strong {
+            color: #087582;
+            font-size: 18px;
+        }
+
+        .verified-badge {
+            background: #e8f8ef;
+            color: #159447;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ================= FORM ================= */
+
+        .section-title {
+            color: #073b4c;
+            font-size: 19px;
+            margin: 28px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e4edef;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            color: #173f4c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 14px;
+            border: 1px solid #d8e5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0c8997;
+            box-shadow: 0 0 0 3px rgba(12, 137, 151, 0.08);
+        }
+
+        .optional {
+            color: #87969c;
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        /* ================= PRIVACY ================= */
+
+        .privacy-note {
+            background: #f6f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #637781;
+            line-height: 1.6;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .continue-button {
+            border: none;
+            background: #ff5558;
+            color: white;
+            padding: 14px 27px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .continue-button:hover {
+            background: #ed4548;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .profile-card {
+                padding: 25px 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .progress-step {
+                width: 70px;
+            }
+
+            .step-line {
+                width: 25px;
+            }
+
+            .step-label {
+                display: none;
+            }
+
+            .life-id-box {
+                gap: 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="brand">
+                <img
+                    src="assets/logo.png"
+                    alt="LIFE_ID Logo"
+                    class="logo"
+                >
+            </a>
+
+            <nav class="nav-links">
+
+                <a href="index.html">Home</a>
+
+                <a href="index.html#how-it-works">
+                    How It Works
+                </a>
+
+                <a href="index.html#features">
+                    Features
+                </a>
+
+                <a href="index.html#about">
+                    About
+                </a>
+
+            </nav>
+
+            <a
+                href="emergency-access.html"
+                class="nav-emergency"
+            >
+                Emergency Access
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+
+            <!-- ================= PROGRESS ================= -->
+
+            <div class="progress-container">
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle active">
+                            ✓
+                        </div>
+
+                        <span class="step-label">
+                            Verify Identity
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle active">
+                            ✓
+                        </div>
+
+                        <span class="step-label">
+                            Create LIFE_ID
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle active">
+                            3
+                        </div>
+
+                        <span class="step-label">
+                            Medical Profile
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="progress-step">
+
+                    <div class="step-wrapper">
+
+                        <div class="step-circle inactive">
+                            4
+                        </div>
+
+                        <span class="step-label">
+                            Emergency Contacts
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= PROFILE CARD ================= -->
+
+            <section class="profile-card">
+
+
+                <div class="profile-header">
+
+                    <div class="profile-icon">
+                        🏥
+                    </div>
+
+                    <h1>
+                        Medical Profile
+                    </h1>
+
+                    <p>
+                        Add important medical information that can
+                        help hospitals during an emergency.
+                    </p>
+
+                </div>
+
+
+                <!-- LIFE ID -->
+
+                <div class="life-id-box">
+
+                    <div>
+
+                        <span>
+                            Your LIFE_ID
+                        </span>
+
+                        <strong id="lifeIdDisplay">
+                            LIFE-XXXXXX
+                        </strong>
+
+                    </div>
+
+                    <div class="verified-badge">
+                        ✓ Identity Verified
+                    </div>
+
+                </div>
+
+
+                <!-- ================= BASIC MEDICAL INFO ================= -->
+
+                <h2 class="section-title">
+                    Basic Medical Information
+                </h2>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="bloodGroup">
+                            Blood Group
+                        </label>
+
+                        <select id="bloodGroup">
+
+                            <option value="">
+                                Select blood group
+                            </option>
+
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                            <option>Unknown</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="gender">
+                            Gender
+                        </label>
+
+                        <select id="gender">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                            <option>Prefer not to say</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="conditions">
+                            Medical Conditions
+                            <span class="optional">
+                                (if any)
+                            </span>
+                        </label>
+
+                        <textarea
+                            id="conditions"
+                            placeholder="Example: Asthma, diabetes, heart condition..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="allergies">
+                            Allergies
+                            <span class="optional">
+                                (important)
+                            </span>
+                        </label>
+
+                        <textarea
+                            id="allergies"
+                            placeholder="Example: Penicillin, peanuts, specific medicines..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="medications">
+                            Current Medications
+                            <span class="optional">
+                                (if any)
+                            </span>
+                        </label>
+
+                        <textarea
+                            id="medications"
+                            placeholder="List important medicines currently being taken..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="doctor">
+                            Primary Doctor / Hospital
+                            <span class="optional">
+                                (optional)
+                            </span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="doctor"
+                            placeholder="Doctor or hospital name"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRIVACY -->
+
+                <div class="privacy-note">
+
+                    🔒 <strong>Privacy & Safety:</strong>
+                    Only necessary emergency medical information should
+                    be stored. This hackathon prototype uses browser
+                    storage for demonstration and should not be used
+                    for real medical records.
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <div class="profile-actions">
+
+                    <button
+                        type="button"
+                        class="continue-button"
+                        onclick="saveMedicalProfile()"
+                    >
+                        Save & Continue →
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* Show generated LIFE_ID */
+
+        const savedLifeId =
+            localStorage.getItem("lifeId");
+
+        if (savedLifeId) {
+
+            document.getElementById(
+                "lifeIdDisplay"
+            ).textContent = savedLifeId;
+
+        }
+
+
+        /* Save Medical Profile */
+
+        function saveMedicalProfile() {
+
+            const bloodGroup =
+                document.getElementById("bloodGroup").value;
+
+            const gender =
+                document.getElementById("gender").value;
+
+            const conditions =
+                document.getElementById("conditions").value.trim();
+
+            const allergies =
+                document.getElementById("allergies").value.trim();
+
+            const medications =
+                document.getElementById("medications").value.trim();
+
+            const doctor =
+                document.getElementById("doctor").value.trim();
+
+
+            /* Save demo medical data */
+
+            const medicalProfile = {
+
+                bloodGroup: bloodGroup || "Not Provided",
+
+                gender: gender || "Not Provided",
+
+                conditions:
+                    conditions || "None Provided",
+
+                allergies:
+                    allergies || "None Provided",
+
+                medications:
+                    medications || "None Provided",
+
+                doctor:
+                    doctor || "Not Provided"
+
+            };
+
+
+            localStorage.setItem(
+                "medicalProfile",
+                JSON.stringify(medicalProfile)
+            );
+
+
+            /* Continue to Emergency Contacts */
+
+            window.location.href =
+                "emergency-contacts.html";
+
+        }
+
+    </script>
+
+</body>
+</html>
